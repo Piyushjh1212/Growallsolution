@@ -75,8 +75,7 @@ nav ul li a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 40px;
+  flex-wrap: wrap;  
 }
 .container-homecontainer{
   max-width: 1400px;
@@ -126,6 +125,11 @@ nav ul li a:hover {
   transform: translateY(-3px);
 }
 
+@media (max-width: 600px) {
+  .container-homecontainer {
+    flex-direction: column;
+  }
+}
 /* ===== Hero Image ===== */
 .hero-image {
   flex: 1;
