@@ -75,9 +75,17 @@ nav ul li a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 70px 20px;
   flex-wrap: wrap;
   gap: 40px;
+}
+.container-homecontainer{
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-text {
