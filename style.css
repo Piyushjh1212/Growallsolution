@@ -70,6 +70,18 @@ nav ul li a:hover {
   border-bottom: 2px solid #4cafef;
 }
 
+.navbar-icon{
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .navbar-icon{
+    display: block;
+  }
+  nav ul{
+    display: none;
+  }
+}
 /* ===== Hero Section ===== */
 .hero-container {
   display: flex;
