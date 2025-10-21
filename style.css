@@ -72,6 +72,7 @@ nav ul li a:hover {
 
 .navbar-icon {
   display: none;
+  font-size: 30px;
 }
 
 @media (max-width: 600px) {
