@@ -7,25 +7,38 @@
   <title>Grow All Coaching — Business Website Package</title>
   <link rel="stylesheet" href="businessclass.css" />
   <link rel="stylesheet" href="../style.css">
+  <script src="../Grow.js"></script>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <header>
-    <div class="container">
-      <nav>
-        <div class="logo">
-          <img src="https://res.cloudinary.com/dieboinjz/image/upload/v1739719838/mern-uploads/ejrkwcxdmqfjdxwyieo9.jpg"
-            alt="logo" height="60" width="60" />
-          <h3>Grow All Coaching — Education & IT Solutions</h3>
-        </div>
-        <ul>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#about">About</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+      <div class="container">
+        <nav>
+          <div class="logo">
+            <img
+              src="https://res.cloudinary.com/dieboinjz/image/upload/v1739719838/mern-uploads/ejrkwcxdmqfjdxwyieo9.jpg"
+              alt="image"
+              height="60"
+              width="60"
+            />
+            <h3 class="heading-Gac">
+              Grow All Coaching — Education & IT Solutions
+            </h3>
+            <div class="navbar-icon" onclick="HandleIconClick()">
+              <i class="fa-solid fa-bars"></i>
+            </div>
+          </div>
+          <ul id="menuList">
+            <li><a href="#services">About</a></li>
+            <li><a href="#about">Services</a></li>
+            <li><a href="#about">Courses</a></li>
+            <li><a href="#about">Investors</a></li>
+            <li><a href="#about">Contact Us</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
   <section class="businessclass">
     <div class="container">
