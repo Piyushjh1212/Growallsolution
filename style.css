@@ -73,17 +73,51 @@ nav ul li a:hover {
 .navbar-icon {
   display: none;
   font-size: 30px;
+  margin-left: 20px;
 }
 
 @media (max-width: 600px) {
-  .navbar-icon {
-    display: block;
-  }
-
-  nav ul {
-    display: none;
-  }
+#menuList {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  position: absolute;
+  top: 90px;
+  left: 0;
+  width: 70%;
+  float: left ;
+  padding: 0;
+  text-align: center;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out, padding 0.3s ease;
 }
+
+#menuList.show {
+  max-height: 300px; 
+  padding: 10px 0;
+}
+
+#menuList li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#menuList li:last-child {
+  border-bottom: none;
+}
+
+#menuList a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+}
+.navbar-icon {
+  display: block;
+}
+}
+
 
 /* ===== Hero Section ===== */
 .hero-container {
