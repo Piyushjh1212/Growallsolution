@@ -70,26 +70,29 @@ nav ul li a:hover {
   border-bottom: 2px solid #4cafef;
 }
 
-.navbar-icon{
+.navbar-icon {
   display: none;
 }
 
 @media (max-width: 600px) {
-  .navbar-icon{
+  .navbar-icon {
     display: block;
   }
-  nav ul{
+
+  nav ul {
     display: none;
   }
 }
+
 /* ===== Hero Section ===== */
 .hero-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;  
+  flex-wrap: wrap;
 }
-.container-homecontainer{
+
+.container-homecontainer {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
@@ -142,6 +145,7 @@ nav ul li a:hover {
     flex-direction: column;
   }
 }
+
 /* ===== Hero Image ===== */
 .hero-image {
   flex: 1;
@@ -157,9 +161,17 @@ nav ul li a:hover {
 
 /* Subtle floating effect */
 @keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
 
 /* ===== Responsive Design ===== */
@@ -172,7 +184,7 @@ nav ul li a:hover {
   .hero-text h1 {
     font-size: 2rem;
   }
-  
+
   nav ul {
     gap: 15px;
   }
@@ -333,11 +345,11 @@ nav ul li a:hover {
   border: 1px solid #e0e0e0;
 }
 
-.business-plan{
+.business-plan {
   margin-top: 20px;
 }
 
-.business-plan ul li{
+.business-plan ul li {
   margin-top: 5px;
   color: #4cafef;
 }
@@ -464,3 +476,28 @@ nav ul li a:hover {
   color: #000000;
 }
 
+
+
+/* Floating WhatsApp Button */
+.whatsapp-float {
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: #25d366;
+  color: white;
+  padding-top: 8px;
+  border-radius: 50%;
+  font-size: 24px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.whatsapp-float:hover {
+  background: #20b358;
+  transform: scale(1.05);
+}
