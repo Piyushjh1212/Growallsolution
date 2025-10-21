@@ -11,7 +11,10 @@ body {
   line-height: 1.6;
   background: #f9fafb;
   color: #222;
+  scroll-behavior: smooth;
 }
+
+
 
 /* ===== Container ===== */
 .container {
