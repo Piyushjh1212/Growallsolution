@@ -13,12 +13,7 @@ body {
   color: #222;
   scroll-behavior: smooth;
   font-family: "Poppins", sans-serif;
-  margin: 0;
-  padding: 0;
-  line-height: 1.6;
 }
-
-
 
 /* ===== Container ===== */
 .container {
@@ -77,54 +72,17 @@ nav ul li a:hover {
   border-bottom: 2px solid #4cafef;
 }
 
+/* ===== Navbar Icon for Mobile ===== */
 .navbar-icon {
   display: none;
   font-size: 30px;
   margin-left: 20px;
+  cursor: pointer;
 }
 
-@media (max-width: 600px) {
-#menuList {
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  position: absolute;
-  top: 110px;
-  left: 0;
-  width: 70%;
-  float: left;
-  padding: 0;
-  text-align: center;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease-in-out, padding 0.3s ease;
+.navbar-icon i {
+  transition: 0.3s;
 }
-
-#menuList.show {
-  max-height: 300px; 
-  padding: 10px 0;
-}
-
-#menuList li {
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-#menuList li:last-child {
-  border-bottom: none;
-}
-
-#menuList a {
-  color: #000;
-  text-decoration: none;
-  font-weight: 500;
-  display: block;
-}
-.navbar-icon {
-  display: block;
-}
-}
-
 
 /* ===== Hero Section ===== */
 .hero-container {
@@ -145,14 +103,13 @@ nav ul li a:hover {
 }
 
 .hero-text {
- display: flex;
+  display: flex;
 }
 
-.hero-text-1{
- flex: 1;
+.hero-text-1 {
+  flex: 1;
   min-width: 280px;
 }
-
 
 .hero-text h1 {
   font-size: 2.5rem;
@@ -187,17 +144,7 @@ nav ul li a:hover {
   transform: translateY(-3px);
 }
 
-@media (max-width: 600px) {
-  .container-homecontainer {
-    flex-direction: column;
-  }
-
-  .hero-text{
-    display: block;
-  }
-}
-
-/* ===== Hero Image ===== */
+/* Hero Image */
 .hero-image {
   flex: 1;
   min-width: 300px;
@@ -210,55 +157,15 @@ nav ul li a:hover {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Subtle floating effect */
 @keyframes float {
   0% {
     transform: translateY(0);
   }
-
   50% {
     transform: translateY(-10px);
   }
-
   100% {
     transform: translateY(0);
-  }
-}
-
-/* ===== Responsive Design ===== */
-@media (max-width: 900px) {
-  .hero-container {
-    flex-direction: column-reverse;
-    text-align: center;
-  }
-
-  .hero-text h1 {
-    font-size: 2rem;
-  }
-
-  nav ul {
-    gap: 15px;
-  }
-}
-
-@media (max-width: 600px) {
-  nav {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  nav ul {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-text h1 {
-    font-size: 1.7rem;
-  }
-
-  .btn-primary {
-    padding: 10px 20px;
-    font-size: 0.95rem;
   }
 }
 
@@ -334,23 +241,6 @@ nav ul li a:hover {
   font-weight: bold;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .about-container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .about-text h2::after {
-    margin: 10px auto;
-  }
-
-  .about-text ul {
-    text-align: left;
-    display: inline-block;
-  }
-}
-
 /* ===== Product Section ===== */
 .product-section {
   padding: 80px 20px;
@@ -382,29 +272,17 @@ nav ul li a:hover {
   margin: 0 auto 40px;
 }
 
-/* Product Grid */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
 }
 
-/* Product Card */
 .product-card {
   border-radius: 15px;
   padding: 25px;
   border: 1px solid #e0e0e0;
 }
-
-.business-plan {
-  margin-top: 20px;
-}
-
-.business-plan ul li {
-  margin-top: 5px;
-  color: #4cafef;
-}
-
 
 .product-card img {
   width: 100%;
@@ -425,13 +303,21 @@ nav ul li a:hover {
   line-height: 1.6;
 }
 
+.business-plan {
+  margin-top: 20px;
+}
+
+.business-plan ul li {
+  margin-top: 5px;
+  color: #4cafef;
+}
+
 .product-card .btn-primary {
   padding: 10px 20px;
   font-size: 0.95rem;
   margin-top: 20px;
   cursor: pointer;
 }
-
 
 /* ===== Footer ===== */
 .footer {
@@ -471,10 +357,6 @@ nav ul li a:hover {
   color: #000000;
 }
 
-.footer-links ul {
-  list-style: none;
-}
-
 .footer-links ul li {
   margin: 8px 0;
 }
@@ -500,22 +382,6 @@ nav ul li a:hover {
   text-decoration: none;
 }
 
-.footer-social .social-icons {
-  display: flex;
-  gap: 15px;
-}
-
-.footer-social img {
-  width: 28px;
-  height: 28px;
-  filter: brightness(0) invert(1);
-  transition: transform 0.3s;
-}
-
-.footer-social img:hover {
-  transform: scale(1.1);
-}
-
 .footer-bottom {
   text-align: center;
   padding-top: 15px;
@@ -527,9 +393,7 @@ nav ul li a:hover {
   color: #000000;
 }
 
-
-
-/* Floating WhatsApp Button */
+/* ===== Floating WhatsApp Button ===== */
 .whatsapp-float {
   position: fixed;
   bottom: 40px;
@@ -551,4 +415,112 @@ nav ul li a:hover {
 .whatsapp-float:hover {
   background: #20b358;
   transform: scale(1.05);
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 900px) {
+  .hero-container {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  nav ul {
+    gap: 15px;
+  }
+
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-text h2::after {
+    margin: 10px auto;
+  }
+
+  .about-text ul {
+    text-align: left;
+    display: inline-block;
+  }
+}
+
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-text h1 {
+    font-size: 1.7rem;
+  }
+
+  .btn-primary {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+  
+  .hero-text {
+    display: block;
+  }
+
+  /* ===== Mobile Menu & Hamburger/Cross Toggle ===== */
+  .navbar-icon {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 28px;
+    gap: 10px;
+    color: #333;
+  }
+
+  .navbar-icon .fa-xmark {
+    display: none;
+  }
+
+  #menuList {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    position: absolute;
+    top: 110px;
+    left: 0;
+    width: 70%;
+    padding: 0;
+    text-align: center;
+    max-height: 0;
+    overflow: hidden;
+    border-right: 1px solid #ddd;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    transition: max-height 0.4s ease-in-out, padding 0.3s ease;
+    z-index: 999;
+  }
+
+  #menuList.show {
+    max-height: 500px;
+    padding: 10px 0;
+  }
+
+  #menuList li {
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  #menuList li:last-child {
+    border-bottom: none;
+  }
+
+  #menuList a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+    display: block;
+  }
 }
