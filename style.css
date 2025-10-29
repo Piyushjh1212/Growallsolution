@@ -41,7 +41,15 @@ nav {
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.logo-content-heading{
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .logo img {
@@ -51,6 +59,7 @@ nav {
 .heading-Gac {
   font-size: 1.1rem;
   font-weight: 600;
+  margin-right: 15px;
   color: #333;
 }
 
@@ -73,12 +82,15 @@ nav ul li a:hover {
 }
 
 /* ===== Navbar Icon for Mobile ===== */
-.navbar-icon {
-  display: none;
-  font-size: 30px;
-  margin-left: 20px;
-  cursor: pointer;
-}
+  .navbar-icon {
+    display: none;
+    align-items: center;
+    cursor: pointer;
+    font-size: 28px;
+    gap: 10px;
+    color: #333;
+  }
+
 
 .navbar-icon i {
   transition: 0.3s;
@@ -472,13 +484,10 @@ nav ul li a:hover {
   }
 
   /* ===== Mobile Menu & Hamburger/Cross Toggle ===== */
-  .navbar-icon {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 28px;
-    gap: 10px;
-    color: #333;
+
+    .navbar-icon {
+    display: block;
+   
   }
 
   .navbar-icon .fa-xmark {
@@ -490,7 +499,7 @@ nav ul li a:hover {
     flex-direction: column;
     background: #fff;
     position: absolute;
-    top: 110px;
+    top: 90px;
     left: 0;
     width: 70%;
     padding: 0;
@@ -522,5 +531,11 @@ nav ul li a:hover {
     text-decoration: none;
     font-weight: 500;
     display: block;
+  }
+}
+
+@media (max-width: 372px) {
+    #menuList {
+    top: 111px;
   }
 }
