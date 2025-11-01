@@ -98,6 +98,21 @@
   font-size: 14px;
 }
 
+.businessclass-tag-1{
+  background: #1298b7;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.businessclass-tag-1 span {
+  display: block;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
 /* Steps Grid */
 .businessclass-steps {
   display: grid;
