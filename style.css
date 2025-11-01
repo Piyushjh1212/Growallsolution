@@ -355,15 +355,24 @@ nav ul li a:hover {
     .gac-feedback-card {
       flex: 0 0 100%;
       background: #fff;
+      width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       padding: 40px 30px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       border-radius: 15px;
       height: 80vh;
       text-align: center;
       box-sizing: border-box;
+    }
+
+    .gac-feedback-card  .width{
+      width: 800px;
+      margin: 0 auto;
+    }
+
+    .Client_website{
+      text-decoration: underline;
     }
 
     .gac-feedback-text {
@@ -438,6 +447,10 @@ nav ul li a:hover {
       .gac-feedback-card {
         padding: 25px;
       }
+       .gac-feedback-card  .width{
+      width: 100%;
+    }
+
       .gac-feedback-container {
         max-width: 90%;
       }
