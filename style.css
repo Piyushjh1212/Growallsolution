@@ -343,7 +343,7 @@ nav ul li a:hover {
 
     .gac-feedback-container {
       position: relative;
-      overflow: hidden;
+      height: fit-content;
       margin: 0 auto;
     }
 
