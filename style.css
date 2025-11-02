@@ -333,130 +333,157 @@ nav ul li a:hover {
   cursor: pointer;
 }
 
-/* feedback section */
+/* Feedback Section */
+.clientFeedbackSection {
+  background: #f9fafc;
+  text-align: center;
+  padding: 60px 0;
+  min-height: 100vh;
+}
 
-    .clientFeedbackSection {
-      background: #f9fafc;
-      text-align: center;
-  
-    }
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #111;
+}
 
-    .gac-feedback-container {
-      position: relative;
-      height: fit-content;
-      margin: 0 auto;
-    }
+/* Client feedback slider styles  */
 
-    .gac-feedback-slider {
-      display: flex;
-      transition: transform 0.6s ease-in-out;
-    }
+/* Container */
+.gac-feedback-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+}
 
-    .gac-feedback-card {
-      flex: 0 0 100%;
-      background: #fff;
-      width: 100%;
-      height: fit-content;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 40px 30px;
-      border-radius: 15px;
-      height: 80vh;
-      text-align: center;
-      box-sizing: border-box;
-    }
+/* Slider */
+.gac-feedback-slider {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+}
 
-    .gac-feedback-card  .width{
-      width: 800px;
-      height: fit-content;
-      margin: 0 auto;
-    }
+/* Card */
+.gac-feedback-card {
+  flex: 0 0 100%;
+  background: #fff;
+  border-radius: 15px;
+  padding: 40px 30px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .Client_website{
-      text-decoration: underline;
-    }
+.gac-feedback-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
 
-    .gac-feedback-text {
-      font-size: 1rem;
-      color: #333;
-      margin-bottom: 15px;
-      line-height: 1.6;
-    }
+.gac-feedback-content img {
+  border-radius: 50%;
+  margin-bottom: 20px;
+  object-fit: cover;
+}
 
-    .gac-feedback-name {
-      font-weight: 600;
-      color: #111;
-      margin-bottom: 5px;
-    }
+/* Text Styles */
+.gac-feedback-text {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
 
-    .gac-feedback-role {
-      color: #777;
-      font-size: 0.9rem;
-    }
+.gac-feedback-name {
+  font-weight: 600;
+  color: #111;
+  margin-top: 10px;
+}
 
-    .gac-feedback-btn {
-      position: absolute;
-      top: 50%;
-      background: #0078ff;
-      color: white;
-      border: none;
-      font-size: 1.5rem;
-      padding: 10px 15px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      z-index: 10;
-    }
+.gac-feedback-role {
+  color: #777;
+  font-size: 0.9rem;
+}
 
-    .gac-feedback-btn:hover {
-      background: #005fcc;
-    }
+.Client_website {
+  text-decoration: underline;
+  color: #0078ff;
+  font-weight: 500;
+}
 
-    .gac-prev {
-      left: 20px;
-    }
+.Client_website:hover {
+  color: #005fcc;
+}
 
-    .gac-next {
-      right: 20px;
-    }
+/* Navigation Buttons */
+.gac-feedback-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #0078ff;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 10px 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 10;
+}
 
-    /* Dots */
-    .gac-feedback-dots {
-      margin-top: 25px;
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-    }
+.gac-feedback-btn:hover {
+  background: #005fcc;
+}
 
-    .gac-dot {
-      width: 12px;
-      height: 12px;
-      background: #ccc;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+.gac-prev {
+  left: 20px;
+}
 
-    .gac-dot.active {
-      background: #0078ff;
-    }
+.gac-next {
+  right: 20px;
+}
 
-    @media (max-width: 768px) {
-      .gac-prev, .gac-next {
-        display: none;
-      }
-      .gac-feedback-card {
-        padding: 25px;
-      }
-       .gac-feedback-card  .width{
-      width: 100%;
-    }
+/* Dots */
+.gac-feedback-dots {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
 
-      .gac-feedback-container {
-        max-width: 90%;
-      }
-    }
+.gac-dot {
+  width: 12px;
+  height: 12px;
+  background: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.gac-dot.active {
+  background: #0078ff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gac-prev,
+  .gac-next {
+    display: none;
+  }
+
+  .gac-feedback-card {
+    padding: 25px;
+  }
+
+  .gac-feedback-content img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .gac-feedback-container {
+    max-width: 90%;
+  }
+}
 
 
 /* ===== Footer ===== */
