@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="hi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Investor Section - Growall Solutions</title>
+    <style>
+      :root {
+        --bg: #f7fafc;
+        --card: #ffffff;
+        --muted: #6b7280;
+        --accent: #0ea5a4;
+        --radius: 12px;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: #111827;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 24px;
+      }
+
+      .investor-section {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.6),
+          rgba(255, 255, 255, 0.9)
+        );
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      }
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .section-head h2 {
+        margin: 0;
+        font-size: 20px;
+      }
+      .section-head p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      /* layout: 3-column on desktop, stacked on mobile */
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 360px 1fr;
+        gap: 20px;
+        align-items: center;
+      }
+
+      /* Directors column */
+      .directors {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .director {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 10px;
+        background: var(--card);
+        box-shadow: 0 2px 8px rgba(2, 6, 23, 0.04);
+      }
+      .dir-avatar {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eef2ff;
+        color: #4f46e5;
+        font-weight: 600;
+      }
+
+      .dir-avatar-Founder{
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #a4d5d6;
+        color: #121212;
+        font-weight: 600;
+        font-size: 50px;
+        margin-bottom: 14px;
+      }
+      
+      .dir-info {
+        font-size: 15px;
+      }
+      .dir-role {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* Founder card */
+      .founder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        background: var(--card);
+        border-radius: 14px;
+      }
+      .founder .photo {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 6px solid #fff;
+        box-shadow: 0 6px 22px rgba(2, 6, 23, 0.06);
+        margin-bottom: 14px;
+      }
+      .founder img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .founder h3 {
+        margin: 0;
+        font-size: 20px;
+      }
+      .founder p {
+        margin: 6px 0 0;
+        color: var(--muted);
+      }
+      .founder .meta {
+        margin-top: 12px;
+        display: flex;
+        gap: 10px;
+      }
+
+      /* Investor card */
+      .investor {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 18px;
+        border: 1px solid rgba(0, 0, 0, 0.312);
+        border-radius: 14px;
+        background: linear-gradient(180deg, #ffffff, #fbfdff);
+      }
+      .investor .photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 12px;
+      }
+      .investor img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .investor h4 {
+        margin: 0;
+        font-size: 17px;
+      }
+      .investor p {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      /* small screens */
+      @media (max-width: 880px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .founder {
+          order: 2;
+        }
+        .investor {
+          order: 3;
+          margin-top: 10px;
+        }
+        .directors {
+          order: 1;
+        }
+      }
+
+      /* small visual interactions */
+      .card-hover {
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-6px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="investor-section">
+        <div class="section-head">
+          <h2>Team & Investors</h2>
+          <p>Founder, Directors and lead investor</p>
+        </div>
+
+        <div class="grid">
+          <!-- Directors column (only names + small avatar/initials) -->
+          <div class="directors">
+            <div class="director card-hover">
+              <div class="dir-avatar">MJ</div>
+              <div class="dir-info">
+                <div class="dir-name">Madhuri Jhariya</div>
+                <div class="dir-role">Director</div>
+              </div>
+            </div>
+
+            <div class="director card-hover">
+              <div class="dir-avatar">RK</div>
+              <div class="dir-info">
+                <div class="dir-name">Ritu Khandelwal</div>
+                <div class="dir-role">Director</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Founder card -->
+          <div class="founder card-hover">
+      
+              <div class="dir-avatar-Founder">P</div>
+         
+            <h3>Mr. Piyush Jhariya</h3>
+            <p>Founder CEO & CTO</p>
+            <div class="meta">
+              <small style="color: var(--muted)">Joined 2025</small>
+              <small style="color: var(--muted)">Lives in Bhopal</small>
+            </div>
+          </div>
+
+          <!-- Investor card -->
+          <div class="investor card-hover">
+            <div class="photo">
+              <!-- replace src with your investor image -->
+              <img src="images/investor.jpg" alt="NAN" />
+            </div>
+            <h4>NAN</h4>
+            <p>NAN</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Optional JS: allow clicking a card to show a simple modal/bio alert
+      document.querySelectorAll(".card-hover").forEach((el) => {
+        el.addEventListener("click", () => {
+          const name =
+            el.querySelector("h3, h4, .dir-name")?.innerText || "Profile";
+          alert(
+            name +
+              " - detailed bio can be added here. Replace alert with modal if needed."
+          );
+        });
+      });
+    </script>
+  </body>
+</html>
