@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showFeedback(index) {
     slider.style.transform = `translateX(-${index * 100}%)`;
-    dots.forEach(dot => dot.classList.remove("active"));
+    dots.forEach((dot) => dot.classList.remove("active"));
     dots[index].classList.add("active");
     currentIndex = index;
   }
@@ -72,11 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 5000);
 
   // ✅ Touch Swipe (Mobile)
-  slider.addEventListener("touchstart", e => {
+  slider.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
   });
 
-  slider.addEventListener("touchmove", e => {
+  slider.addEventListener("touchmove", (e) => {
     endX = e.touches[0].clientX;
   });
 
@@ -97,5 +97,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // Reset values
     startX = 0;
     endX = 0;
+  });
+});
+
+// Optional: click interaction for demo
+document.querySelectorAll(".gac-card-hover").forEach((el) => {
+  el.addEventListener("click", () => {
+    const name =
+      el.querySelector("h3, h4, .gac-director-name")?.innerText || "Profile";
+    alert(
+      name +
+        " - detailed bio can be added here. Replace alert with modal if needed."
+    );
   });
 });
