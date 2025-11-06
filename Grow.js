@@ -65,13 +65,13 @@ document.addEventListener("DOMContentLoaded", () => {
     showFeedback(currentIndex);
   });
 
-  // ✅ Auto-slide every 5 seconds
+  //  Auto-slide every 5 seconds
   setInterval(() => {
     currentIndex = (currentIndex + 1) % cards.length;
     showFeedback(currentIndex);
   }, 5000);
 
-  // ✅ Touch Swipe (Mobile)
+  // Touch Swipe (Mobile)
   slider.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
   });
