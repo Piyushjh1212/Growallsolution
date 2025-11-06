@@ -4,28 +4,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Investor Section - Growall Solutions</title>
+    <link rel="stylesheet" href="./style.css" />
+
     <style>
       :root {
-        --bg: #f7fafc;
-        --card: #ffffff;
-        --muted: #6b7280;
-        --accent: #0ea5a4;
-        --radius: 12px;
+        --gac-bg: #f7fafc;
+        --gac-card: #ffffff;
+        --gac-muted: #6b7280;
+        --gac-accent: #0ea5a4;
+        --gac-radius: 12px;
         font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
           "Helvetica Neue", Arial;
       }
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: #111827;
-      }
-      .container {
+
+      /* investor section main wrapper */
+      .gac-investor-wrapper {
         max-width: 1100px;
         margin: 40px auto;
         padding: 24px;
       }
 
-      .investor-section {
+      .gac-investor-section {
         background: linear-gradient(
           180deg,
           rgba(255, 255, 255, 0.6),
@@ -35,24 +34,27 @@
         padding: 28px;
         box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
       }
-      .section-head {
+
+      .gac-section-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
       }
-      .section-head h2 {
+
+      .gac-section-header h2 {
         margin: 0;
         font-size: 20px;
       }
-      .section-head p {
+
+      .gac-section-header p {
         margin: 0;
-        color: var(--muted);
+        color: var(--gac-muted);
         font-size: 14px;
       }
 
       /* layout: 3-column on desktop, stacked on mobile */
-      .grid {
+      .gac-grid-layout {
         display: grid;
         grid-template-columns: 1fr 360px 1fr;
         gap: 20px;
@@ -60,21 +62,23 @@
       }
 
       /* Directors column */
-      .directors {
+      .gac-director-list {
         display: flex;
         flex-direction: column;
         gap: 12px;
       }
-      .director {
+
+      .gac-director-card {
         display: flex;
         align-items: center;
         gap: 12px;
         padding: 12px;
         border-radius: 10px;
-        background: var(--card);
+        background: var(--gac-card);
         box-shadow: 0 2px 8px rgba(2, 6, 23, 0.04);
       }
-      .dir-avatar {
+
+      .gac-director-avatar {
         width: 56px;
         height: 56px;
         border-radius: 50%;
@@ -86,7 +90,7 @@
         font-weight: 600;
       }
 
-      .dir-avatar-Founder{
+      .gac-founder-avatar {
         width: 140px;
         height: 140px;
         border-radius: 50%;
@@ -99,56 +103,45 @@
         font-size: 50px;
         margin-bottom: 14px;
       }
-      
-      .dir-info {
+
+      .gac-director-info {
         font-size: 15px;
       }
-      .dir-role {
+
+      .gac-director-role {
         font-size: 13px;
-        color: var(--muted);
+        color: var(--gac-muted);
       }
 
       /* Founder card */
-      .founder {
+      .gac-founder-card {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
         padding: 20px;
-        background: var(--card);
+        background: var(--gac-card);
         border-radius: 14px;
       }
-      .founder .photo {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 6px solid #fff;
-        box-shadow: 0 6px 22px rgba(2, 6, 23, 0.06);
-        margin-bottom: 14px;
-      }
-      .founder img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-      .founder h3 {
+
+      .gac-founder-card h3 {
         margin: 0;
         font-size: 20px;
       }
-      .founder p {
+
+      .gac-founder-card p {
         margin: 6px 0 0;
-        color: var(--muted);
+        color: var(--gac-muted);
       }
-      .founder .meta {
+
+      .gac-founder-meta {
         margin-top: 12px;
         display: flex;
         gap: 10px;
       }
 
       /* Investor card */
-      .investor {
+      .gac-investor-card {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -157,114 +150,209 @@
         border-radius: 14px;
         background: linear-gradient(180deg, #ffffff, #fbfdff);
       }
-      .investor .photo {
+
+      .gac-investor-photo {
         width: 120px;
         height: 120px;
         border-radius: 12px;
         overflow: hidden;
         margin-bottom: 12px;
       }
-      .investor img {
+
+      .gac-investor-photo img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
-      .investor h4 {
+
+      .gac-investor-card h4 {
         margin: 0;
         font-size: 17px;
       }
-      .investor p {
+
+      .gac-investor-card p {
         margin: 6px 0 0;
-        color: var(--muted);
+        color: var(--gac-muted);
         font-size: 14px;
       }
 
-      /* small screens */
+      /* Responsive */
       @media (max-width: 880px) {
-        .grid {
+        .gac-grid-layout {
           grid-template-columns: 1fr;
         }
-        .founder {
+        .gac-founder-card {
           order: 2;
         }
-        .investor {
+        .gac-investor-card {
           order: 3;
           margin-top: 10px;
         }
-        .directors {
+        .gac-director-list {
           order: 1;
         }
       }
 
-      /* small visual interactions */
-      .card-hover {
+      /* hover effects */
+      .gac-card-hover {
         transition: transform 0.22s ease, box-shadow 0.22s ease;
       }
-      .card-hover:hover {
+
+      .gac-card-hover:hover {
         transform: translateY(-6px);
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="investor-section">
-        <div class="section-head">
-          <h2>Team & Investors</h2>
-          <p>Founder, Directors and lead investor</p>
-        </div>
-
-        <div class="grid">
-          <!-- Directors column (only names + small avatar/initials) -->
-          <div class="directors">
-            <div class="director card-hover">
-              <div class="dir-avatar">MJ</div>
-              <div class="dir-info">
-                <div class="dir-name">Madhuri Jhariya</div>
-                <div class="dir-role">Director</div>
-              </div>
+    <header>
+      <div class="container-investor">
+        <nav>
+          <div class="logo">
+            <div class="logo-content-heading">
+              <img
+                src="https://res.cloudinary.com/dieboinjz/image/upload/v1739719838/mern-uploads/ejrkwcxdmqfjdxwyieo9.jpg"
+                alt="Growall Logo"
+                height="60"
+                width="60"
+              />
+              <h3 class="heading-Gac">
+                Grow All Coaching — Education & IT Solutions
+              </h3>
             </div>
 
-            <div class="director card-hover">
-              <div class="dir-avatar">RK</div>
-              <div class="dir-info">
-                <div class="dir-name">Ritu Khandelwal</div>
-                <div class="dir-role">Director</div>
-              </div>
+            <div class="navbar-icon" onclick="HandleIconClick()">
+              <i class="fa-solid fa-bars"></i>
+              <i class="fa-solid fa-xmark"></i>
             </div>
           </div>
-
-          <!-- Founder card -->
-          <div class="founder card-hover">
-      
-              <div class="dir-avatar-Founder">P</div>
-         
-            <h3>Mr. Piyush Jhariya</h3>
-            <p>Founder CEO & CTO</p>
-            <div class="meta">
-              <small style="color: var(--muted)">Joined 2025</small>
-              <small style="color: var(--muted)">Lives in Bhopal</small>
-            </div>
-          </div>
-
-          <!-- Investor card -->
-          <div class="investor card-hover">
-            <div class="photo">
-              <!-- replace src with your investor image -->
-              <img src="images/investor.jpg" alt="NAN" />
-            </div>
-            <h4>NAN</h4>
-            <p>NAN</p>
-          </div>
-        </div>
+          <ul id="menuList">
+            <li><a href="#about">About</a></li>
+            <li><a href="#products">Services</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="./Investor.html">Investors</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
       </div>
+    </header>
+
+    <main class="gac-investor-wrapper">
+      <section class="gac-investor-section">
+        <div class="gac-section-header">
+          <h2>Team & Investors</h2>
+          <p>Founder, Directors, and Lead Investor</p>
+        </div>
+
+        <div class="gac-grid-layout">
+          <!-- Directors -->
+          <div class="gac-director-list">
+            <div class="gac-director-card gac-card-hover">
+              <div class="gac-director-avatar">MJ</div>
+              <div class="gac-director-info">
+                <div class="gac-director-name">Madhuri Jhariya</div>
+                <div class="gac-director-role">Director</div>
+              </div>
+            </div>
+
+            <div class="gac-director-card gac-card-hover">
+              <div class="gac-director-avatar">RK</div>
+              <div class="gac-director-info">
+                <div class="gac-director-name">Ritu Khandelwal</div>
+                <div class="gac-director-role">Director</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Founder -->
+          <div class="gac-founder-card gac-card-hover">
+            <div class="gac-founder-avatar">P</div>
+            <h3>Mr. Piyush Jhariya</h3>
+            <p>Founder, CEO & CTO</p>
+            <div class="gac-founder-meta">
+              <small style="color: var(--gac-muted)">Joined 2025</small>
+              <small style="color: var(--gac-muted)">Lives in Bhopal</small>
+            </div>
+          </div>
+
+          <!-- Investor -->
+          <div class="gac-investor-card gac-card-hover">
+            <div class="gac-investor-photo">
+              <img src="images/investor.jpg" alt="Investor" />
+            </div>
+            <h4>Investor Name</h4>
+            <p>Lead Investor</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+     <footer class="footer">
+    <div class="container footer-container">
+      <!-- Company Info -->
+      <div class="footer-about">
+        <img src="https://res.cloudinary.com/dieboinjz/image/upload/v1739719838/mern-uploads/ejrkwcxdmqfjdxwyieo9.jpg"
+          alt="GAC Logo" width="60" height="60" />
+        <h3>Grow All Coaching</h3>
+        <p>
+          Empowering businesses and individuals with innovative IT and
+          education solutions.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#services">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#products">Courses</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="footer-links">
+        <h4>Our Policy's</h4>
+        <ul>
+          <li><a href="./Terms And Condition/PrivacyPolicy.html">Privacy policy</a></li>
+          <li><a href="./Terms And Condition/T&S.html">Terms and condition</a></li>
+          <li><a href="./Terms And Condition/ReturnPolicy.html">Return Policy</a></li>
+        </ul>
+      </div>
+
+
+      <div class="footer-contact">
+        <h4>Contact Us</h4>
+        <p>
+          Email:
+          <a href="mailto:growallcoaching@gmail.com">growallcoaching.com</a>
+        </p>
+        <p>Phone: +91 70246 18290</p>
+        <p>Address: Bhopal, MP, India</p>
+      </div>
+
+
+    </div>
+    <div class="social-icons">
+      <a href="https://facebook.com" target="_blank" class="facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="https://instagram.com" target="_blank" class="instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://linkedin.com" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="https://youtube.com" target="_blank" class="youtube"><i class="fa-brands fa-youtube"></i></a>
     </div>
 
+
+    <!-- Bottom -->
+    <div class="footer-bottom">
+      <p>© 2025 Grow All Coaching — All Rights Reserved.</p>
+    </div>
+  </footer>
+
     <script>
-      // Optional JS: allow clicking a card to show a simple modal/bio alert
-      document.querySelectorAll(".card-hover").forEach((el) => {
+      // Optional: click interaction for demo
+      document.querySelectorAll(".gac-card-hover").forEach((el) => {
         el.addEventListener("click", () => {
           const name =
-            el.querySelector("h3, h4, .dir-name")?.innerText || "Profile";
+            el.querySelector("h3, h4, .gac-director-name")?.innerText || "Profile";
           alert(
             name +
               " - detailed bio can be added here. Replace alert with modal if needed."
