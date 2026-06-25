@@ -1,0 +1,824 @@
+/* ===== General Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  line-height: 1.6;
+  background: #f9fafb;
+  color: #222;
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== Container ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Google Font for premium look */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+/* ________________________________ */
+/* Main Header Container */
+/* ____________________________________ */
+
+.my-custom-header {
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0 40px;
+}
+
+.my-custom-header-nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Unique Logo Styles */
+.my-custom-header-logo a {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2d3748;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Blue dot for branding vibe */
+.my-custom-header-logo a::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background-color: #3182ce;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Unique Menu Styles */
+.my-custom-header-menu {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  align-items: center;
+}
+
+.my-custom-header-menu-item a {
+  text-decoration: none;
+  color: #4a5568;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 8px 0;
+}
+
+/* Hover Effect: Text Color */
+.my-custom-header-menu-item a:hover {
+  color: #3182ce;
+}
+
+/* Hover Effect: Underline slide animation */
+.my-custom-header-menu-item a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #3182ce;
+  transition: width 0.3s ease;
+}
+
+.my-custom-header-menu-item a:hover::after {
+  width: 100%;
+}
+
+/* Contact Button (CTA) Styling */
+.my-custom-header-btn-contact a {
+  background-color: #3182ce;
+  color: white !important; /* Force white color */
+  padding: 8px 20px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.my-custom-header-btn-contact a:hover {
+  background-color: #2b6cb0;
+}
+
+/* Disable underline animation for Contact Button */
+.my-custom-header-btn-contact a::after {
+  display: none;
+}
+
+/* Responsive Code */
+@media (max-width: 768px) {
+  .my-custom-header-nav-container {
+    padding: 0 10px;
+  }
+  .my-custom-header-menu {
+    gap: 16px;
+  }
+  .my-custom-header-menu-item a {
+    font-size: 14px;
+  }
+  .my-custom-header-btn-contact a {
+    padding: 6px 12px;
+  }
+}
+
+/* __________________________________ */
+/* --- HOMEPAGE STYLES --- */
+/* __________________________________ */
+
+.my-custom-hero {
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  padding: 100px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.my-custom-hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.my-custom-hero-content {
+  flex: 1;
+}
+
+.my-custom-hero-badge {
+  display: inline-block;
+  background-color: #ebf8ff;
+  color: #3182ce;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.my-custom-hero-content h1 {
+  font-size: 48px;
+  font-weight: 700;
+  color: #1a202c;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.my-custom-hero-content h1 span {
+  color: #3182ce;
+}
+
+.my-custom-hero-content p {
+  font-size: 18px;
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.my-custom-hero-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.my-custom-btn-primary {
+  background-color: #3182ce;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s ease;
+  box-shadow: 0 4px 14px rgba(49, 130, 206, 0.3);
+}
+
+.my-custom-btn-primary:hover {
+  background-color: #2b6cb0;
+}
+
+.my-custom-btn-secondary {
+  background-color: transparent;
+  color: #4a5568;
+  padding: 14px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.my-custom-btn-secondary:hover {
+  background-color: #e2e8f0;
+  color: #1a202c;
+}
+
+.my-custom-hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Updated Image Frame (No distortion, pure fitness) */
+.my-custom-hero-graphic {
+  width: 100%;
+  max-width: 480px;
+  height: 350px;
+  border-radius: 16px; /* Professional rounded card look */
+  overflow: hidden; /* Image corners ko smooth kaatne ke liye */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 4px solid #ffffff; /* Clean border frame */
+  animation: my-image-bounce 4s ease-in-out infinite;
+}
+
+.my-custom-hero-graphic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Photo ka aspect ratio kharab nahi hoga aur sahi se fill karegi */
+  display: block;
+}
+
+/* Linear smooth floating animation */
+@keyframes my-image-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Responsive for Homepage */
+@media (max-width: 968px) {
+  .my-custom-hero-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+  .my-custom-hero-content h1 {
+    font-size: 36px;
+  }
+  .my-custom-hero-buttons {
+    justify-content: center;
+  }
+  .my-custom-hero-graphic {
+    max-width: 400px;
+    height: 300px;
+  }
+}
+
+
+
+/* ==========================================================================
+   PRODUCTS SECTION STYLES
+   ========================================================================== */
+.my-custom-products-section {
+  padding: 100px 40px;
+  background-color: #f8fafc; /* Soft background to separate from white features section */
+  text-align: center;
+}
+
+.my-custom-products-section .my-custom-section-title span {
+  color: #3182ce;
+}
+
+.my-custom-products-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+  padding-top: 20px;
+}
+
+.my-custom-product-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid #edf2f7;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card Hover effect: upar uthega aur thodi deep shadow aayegi */
+.my-custom-product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.08);
+  border-color: #e2e8f0;
+}
+
+.my-custom-product-image-box {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  position: relative;
+}
+
+.my-custom-product-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Image zoom effect on hover */
+.my-custom-product-card:hover .my-custom-product-image-box img {
+  transform: scale(1.06);
+}
+
+.my-custom-product-content {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Taki saare cards ki height content kam-zyada hone par bhi equal rahe */
+}
+
+.my-custom-product-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #3182ce;
+  background-color: #ebf8ff;
+  padding: 4px 12px;
+  border-radius: 50px;
+  width: fit-content;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.my-custom-product-content h3 {
+  font-size: 22px;
+  color: #1a202c;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+.my-custom-product-content p {
+  color: #4a5568;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  flex-grow: 1; /* Content pushes the button to the bottom */
+}
+
+.my-custom-product-footer {
+  margin-top: auto; /* Button hamesha card ke bottom me align rahega */
+}
+
+.my-custom-product-btn {
+  display: inline-block;
+  text-decoration: none;
+  color: #3182ce;
+  font-weight: 600;
+  font-size: 15px;
+  border: 2px solid #3182ce;
+  padding: 10px 24px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-align: center;
+  width: 100%; /* Mobile grid me clickable area badhane ke liye button full width kiya hai */
+}
+
+.my-custom-product-btn:hover {
+  background-color: #3182ce;
+  color: #ffffff;
+}
+
+/* Responsive adjustment for products section */
+@media (max-width: 768px) {
+  .my-custom-products-section {
+    padding: 60px 20px;
+  }
+  .my-custom-products-grid {
+    gap: 25px;
+  }
+}
+
+
+/* Our Client Feedback dection  */
+
+/* ==========================================================================
+   CLIENT FEEDBACK SECTION STYLES
+   ========================================================================== */
+.my-custom-feedback-section {
+  padding: 100px 40px;
+  background-color: #ffffff; /* Contrast create karne ke liye background is baar pure white hai */
+  text-align: center;
+}
+
+.my-custom-feedback-badge {
+  display: inline-block;
+  background-color: #f0fff4; /* Soft green success color */
+  color: #38a169;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.my-custom-feedback-section .my-custom-section-title span {
+  color: #3182ce;
+}
+
+.my-custom-feedback-grid {
+  max-width: 1200px;
+  margin: 40px auto 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.my-custom-feedback-card {
+  background-color: #f8fafc; /* Subtle grey cards */
+  padding: 40px 30px;
+  border-radius: 16px;
+  text-align: left;
+  border: 1px solid #edf2f7;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Quote icon design in background */
+.my-custom-feedback-card::before {
+  content: '"';
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  font-size: 80px;
+  color: #e2e8f0;
+  font-family: Georgia, serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.my-custom-feedback-card:hover {
+  background-color: #ffffff;
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(49, 130, 206, 0.08); /* Light premium blue tone shadow */
+  border-color: #3182ce;
+}
+
+.my-custom-rating {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.my-custom-feedback-text {
+  color: #4a5568;
+  font-size: 15px;
+  line-height: 1.7;
+  font-style: italic;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1; /* Quotes ke upar dikhne ke liye */
+}
+
+.my-custom-client-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.my-custom-client-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.my-custom-client-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.my-custom-client-details h4 {
+  font-size: 16px;
+  color: #1a202c;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.my-custom-client-details p {
+  font-size: 13px;
+  color: #718096;
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 768px) {
+  .my-custom-feedback-section {
+    padding: 60px 20px;
+  }
+  .my-custom-feedback-grid {
+    gap: 20px;
+  }
+}
+
+
+/* Footer section styles */
+
+
+/* ==========================================================================
+   FOOTER STYLES WITH ANIMATED KEYFRAMES
+   ========================================================================== */
+.my-custom-footer {
+  position: relative;
+  background: #1a202c; /* Dark premium corporate color */
+  min-height: 100px;
+  padding: 100px 40px 20px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 150px; /* Waves ke liye space adjustment */
+}
+
+/* Wave Container & Shapes */
+.my-custom-footer-waves {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.my-custom-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C150,100 350,20 500,60 C650,100 850,20 1000,60 C1150,100 1350,20 1500,60 L1500,120 L0,120 Z" fill="%231a202c"/></svg>');
+  background-size: 50% 100%;
+}
+
+/* Keyframes Setup for Waves */
+#my-wave1 {
+  z-index: 1000;
+  opacity: 1;
+  bottom: 0;
+  animation: my-animate-wave 30s linear infinite;
+}
+
+#my-wave2 {
+  z-index: 999;
+  opacity: 0.5;
+  bottom: 10px;
+  animation: my-animate-wave-reverse 15s linear infinite;
+}
+
+#my-wave3 {
+  z-index: 998;
+  opacity: 0.2;
+  bottom: 15px;
+  animation: my-animate-wave 20s linear infinite;
+}
+
+#my-wave4 {
+  z-index: 997;
+  opacity: 0.7;
+  bottom: 20px;
+  animation: my-animate-wave-reverse 10s linear infinite;
+}
+
+/* Wave Movements Keyframes */
+@keyframes my-animate-wave {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes my-animate-wave-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* Grid Layout */
+.my-custom-footer-container {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  z-index: 2;
+  position: relative;
+}
+
+.my-custom-footer-col {
+  color: #a0aec0;
+}
+
+.my-custom-footer-logo {
+  font-size: 26px;
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.my-custom-footer-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Social Icons styling with smooth slide & color keyframe feel */
+.my-custom-footer-socials {
+  display: flex;
+  gap: 15px;
+}
+
+.my-custom-footer-socials a {
+  width: 36px;
+  height: 36px;
+  background-color: #2d3748;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  text-decoration: none;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.my-custom-footer-socials a:hover {
+  background-color: #3182ce;
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(49, 130, 206, 0.4);
+}
+
+.my-custom-footer-col h4 {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* Subtitle underline accent */
+.my-custom-footer-col h4::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 35px;
+  background-color: #3182ce;
+}
+
+.my-custom-footer-links {
+  list-style: none;
+}
+
+.my-custom-footer-links li {
+  margin-bottom: 12px;
+}
+
+.my-custom-footer-links li a {
+  color: #a0aec0;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.my-custom-footer-links li a:hover {
+  color: #ffffff;
+  padding-left: 6px; /* Dynamic shift list item effect */
+}
+
+/* Bottom Bar */
+.my-custom-footer-bottom {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid #2d3748;
+  z-index: 2;
+}
+
+.my-custom-footer-bottom p {
+  font-size: 13px;
+  color: #718096;
+}
+
+/* Responsive Grid for Smaller Devices */
+@media (max-width: 768px) {
+  .my-custom-footer {
+    padding: 80px 20px 20px 20px;
+  }
+  .my-custom-footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .my-custom-footer-bottom {
+    margin-top: 40px;
+  }
+}
+
+
+/* Whatsap floating Button styles */
+
+/* ==========================================================================
+   FLOATING WHATSAPP BUTTON WITH PULSE ANIMATION
+   ========================================================================== */
+.my-custom-wa-float {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background-color: #25d366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  z-index: 9999; /* Taki yeh footer aur har section ke upar dikhe */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Inside Image Styling */
+.my-custom-wa-float img {
+  width: 34px;
+  height: 34px;
+  z-index: 3;
+  display: block;
+}
+
+/* Continuous Pulse Ripple Effect */
+.my-custom-wa-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #25d366;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0.7;
+  animation: my-wa-ripple 2s infinite ease-out;
+}
+
+/* Hover Effects */
+.my-custom-wa-float:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+  background-color: #20ba5a;
+}
+
+/* Keyframes for the Ripple/Pulse Animation */
+@keyframes my-wa-ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Mobile responsive alignment */
+@media (max-width: 768px) {
+  .my-custom-wa-float {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+  }
+  .my-custom-wa-float img {
+    width: 28px;
+    height: 28px;
+  }
+}

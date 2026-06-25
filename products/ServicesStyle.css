@@ -1,0 +1,206 @@
+/* Businesswebsitepackage.html css */
+
+/* ===== Business Website Package Section ===== */
+.businessclass-section {
+  background: linear-gradient(135deg, #1cb3dd, #066d84);
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+  border-radius: 0 0 50px 50px;
+}
+
+.businessclass-section h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.businessclass-section p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.businessclass-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  color: #00a884;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  margin-top: 20px;
+  transition: 0.3s;
+}
+
+.businessclass-whatsapp-btn:hover {
+  background: #00a884;
+  color: white;
+}
+
+.businessclass-order-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: white;
+  color: rgba(2, 19, 35, 0.85);
+  font-weight: 500;
+  text-decoration: none;
+  width: 240px;
+  font-size: 18px;
+  padding: 12px;
+  border-radius: 30px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.businessclass-order-btn:hover {
+  background: #00a884;
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* Section Title */
+.businessclass-section-title {
+  font-size: 2rem;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #222;
+  position: relative;
+}
+
+.businessclass-section-title::after {
+  content: "";
+  display: block;
+  width: 150px;
+  height: 3px;
+  background: #4cafef;
+  margin: 10px auto;
+  border-radius: 3px;
+}
+
+/* Tags */
+.businessclass-tags {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 40px 0 20px;
+}
+
+.businessclass-tag {
+  background: #1298b7;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.businessclass-tag-1{
+  background: #1298b7;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.businessclass-tag-1 span {
+  display: block;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Steps Grid */
+.businessclass-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  padding: 30px 8%;
+}
+
+.businessclass-step-card {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  position: relative;
+  transition: 0.4s;
+}
+
+.businessclass-step-card:hover {
+  transform: translateY(-5px);
+}
+
+.businessclass-step-icon {
+  color: #276a96;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* About Section */
+.businessclass-about-top {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e072;
+  padding: 60px 20px;
+}
+
+.businessclass-about {
+  border-radius: 12px;
+  margin: auto 20px;
+}
+
+.businessclass-about h2 {
+  color: #1e90ff;
+  font-size: 2.4em;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.businessclass-about p {
+  font-size: 1.1em;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.businessclass-highlight {
+  font-weight: bold;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .businessclass-steps {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    padding: 30px 4%;
+  }
+}
+
+@media (max-width: 600px) {
+  .businessclass-section h1 {
+    font-size: 1.7rem;
+  }
+
+  .businessclass-whatsapp-btn,
+  .businessclass-order-btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.95rem;
+    padding: 10px 15px;
+  }
+
+  .businessclass-about h2 {
+    font-size: 1.8em;
+  }
+
+  .businessclass-about p {
+    font-size: 1em;
+  }
+
+  .businessclass-steps {
+    padding: 20px 2%;
+    gap: 20px;
+  }
+}
