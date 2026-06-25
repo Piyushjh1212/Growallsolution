@@ -1,118 +1,128 @@
-// =========================
-// Mobile Navbar Toggle
-// =========================
+// ==========================================================================
+// CENTRALIZED WEB LOGIC: MOBILE NAVBAR TOGGLE + SUPABASE CONTACT LEADS
+// ==========================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+  
+  /* ------------------------------------------------------------------------
+     1. BULLETPROOF MOBILE NAVBAR TOGGLE LOGIC
+     ------------------------------------------------------------------------ */
   const menuToggle = document.getElementById("menuToggle");
   const mobileMenu = document.getElementById("mobileMenu");
 
   if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener("click", () => {
-      mobileMenu.classList.toggle("active");
+    // Toggle Menu Function
+    const toggleMenu = (event) => {
+      event.stopPropagation(); // Ghost clicks prevent karne ke liye
+      const isMenuOpen = mobileMenu.classList.toggle("active");
+      
+      // Clean Unicode Icons (Cross & Hamburger)
+      menuToggle.innerHTML = isMenuOpen ? "&#x2715;" : "&#x2630;";
+      menuToggle.setAttribute("aria-expanded", isMenuOpen);
+    };
 
+    // Close Menu Function
+    const closeMenu = () => {
       if (mobileMenu.classList.contains("active")) {
-        menuToggle.innerHTML = "✕";
-      } else {
-        menuToggle.innerHTML = "☰";
+        mobileMenu.classList.remove("active");
+        menuToggle.innerHTML = "&#x2630;";
+        menuToggle.setAttribute("aria-expanded", "false");
+      }
+    };
+
+    // Menu Click Listeners
+    menuToggle.addEventListener("click", toggleMenu);
+
+    // Outside Click Close: Screen par kahi bhi click ho to menu close ho jaye
+    document.addEventListener("click", (event) => {
+      const isClickInsideMenu = mobileMenu.contains(event.target);
+      const isClickOnToggle = menuToggle.contains(event.target);
+
+      if (!isClickInsideMenu && !isClickOnToggle) {
+        closeMenu();
+      }
+    });
+
+    // Escape Key Press Support
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenu();
       }
     });
   }
-});
 
-// =========================
-// Feedback Slider
-// =========================
 
-document.addEventListener("DOMContentLoaded", () => {
-  const slider = document.querySelector(".gac-feedback-slider");
-  const cards = document.querySelectorAll(".gac-feedback-card");
-  const prevBtn = document.querySelector(".gac-prev");
-  const nextBtn = document.querySelector(".gac-next");
-  const dotsContainer = document.querySelector(".gac-feedback-dots");
+  /* ------------------------------------------------------------------------
+     2. SUPABASE REAL-TIME CONTACT FORM LOGIC (FIXED URL)
+     ------------------------------------------------------------------------ */
+  // FIXED: Yahan se /rest/v1/ hata diya hai bhai, ab ye ekdum sahi endpoint hai
+  const SUPABASE_URL = "https://rlbvbbnvswuzggbpcnpn.supabase.co"; 
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsYnZiYm52c3d1emdnYnBjbnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyMTI3MDUsImV4cCI6MjA5Nzc4ODcwNX0._zeUZjHPN3-D390QmTJxTCgVaoRCcVt4XJH25KfwrNI";          
+  
+  const contactForm = document.getElementById('my-supabase-contact-form');
+  const submitBtn = document.getElementById('form-submit-btn');
+  const statusMsg = document.getElementById('form-status-msg');
 
-  if (!slider || !cards.length || !dotsContainer) return;
+  // Form block verify karne ke baad hi trigger hoga (Prevents script breaks)
+  if (contactForm && typeof supabase !== 'undefined') {
+    
+    // Client initialization
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  let currentIndex = 0;
-  let startX = 0;
-  let endX = 0;
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Reload freeze
 
-  cards.forEach((_, index) => {
-    const dot = document.createElement("div");
-    dot.classList.add("gac-dot");
+      // UI States: Lock actions & Loader ON
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Sending Message...";
+      statusMsg.className = "sb-leadform-status-panel";
+      statusMsg.style.display = "none";
 
-    if (index === 0) {
-      dot.classList.add("active");
-    }
+      // Form inputs reading
+      const name = document.getElementById('client-name').value;
+      const email = document.getElementById('client-email').value;
+      const serviceSelected = document.getElementById('client-service').value;
+      
+      // Fallback mechanism if service is omitted
+      const service = serviceSelected ? serviceSelected : "Not Specified"; 
+      const message = document.getElementById('client-message').value;
 
-    dot.addEventListener("click", () => showFeedback(index));
+      try {
+        // Direct injection to Cloud Database
+        const { data, error } = await supabaseClient
+          .from('Contact')
+          .insert([
+            { 
+              full_name: name, 
+              email_address: email, 
+              interested_service: service, 
+              client_message: message 
+            }
+          ]);
 
-    dotsContainer.appendChild(dot);
-  });
+        if (error) throw error;
 
-  const dots = document.querySelectorAll(".gac-dot");
+        // Success Alert UI Update
+        statusMsg.innerText = "🚀 Awesome! Aapka message real-time save ho gaya hai. Hum jald hi connect karenge.";
+        statusMsg.className = "sb-leadform-status-panel success";
+        statusMsg.style.display = "block";
+        contactForm.reset(); // Fields automatic flush
 
-  function showFeedback(index) {
-    slider.style.transform = `translateX(-${index * 100}%)`;
-
-    dots.forEach((dot) => dot.classList.remove("active"));
-    dots[index].classList.add("active");
-
-    currentIndex = index;
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      currentIndex = (currentIndex + 1) % cards.length;
-      showFeedback(currentIndex);
+      } catch (err) {
+        console.error("Supabase Database Error:", err);
+        statusMsg.innerText = "❌ Oops! Database se connection nahi ho paya. Kripya check karein ki RLS Disable hai ya nahi.";
+        statusMsg.className = "sb-leadform-status-panel error";
+        statusMsg.style.display = "block";
+      } finally {
+        // Normal state restore
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Send Message";
+      }
     });
+  } else if (!contactForm) {
+    console.warn("Supabase Warning: Contact form template DOM element missing on this page.");
+  } else {
+    console.error("Supabase Error: CDN script link missing! Kripya header me Supabase SDK inject karein.");
   }
 
-  if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
-      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-      showFeedback(currentIndex);
-    });
-  }
-
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % cards.length;
-    showFeedback(currentIndex);
-  }, 5000);
-
-  slider.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-  });
-
-  slider.addEventListener("touchmove", (e) => {
-    endX = e.touches[0].clientX;
-  });
-
-  slider.addEventListener("touchend", () => {
-    const diff = startX - endX;
-    const threshold = 50;
-
-    if (diff > threshold) {
-      currentIndex = (currentIndex + 1) % cards.length;
-      showFeedback(currentIndex);
-    } else if (diff < -threshold) {
-      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-      showFeedback(currentIndex);
-    }
-
-    startX = 0;
-    endX = 0;
-  });
-});
-
-// =========================
-// Card Click Demo
-// =========================
-
-document.querySelectorAll(".gac-card-hover").forEach((el) => {
-  el.addEventListener("click", () => {
-    const name =
-      el.querySelector("h3, h4, .gac-director-name")?.innerText || "Profile";
-
-    alert(`${name} - detailed bio can be added here.`);
-  });
 });

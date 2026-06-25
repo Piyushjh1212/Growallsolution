@@ -577,6 +577,272 @@ body {
   }
 }
 
+/* __________________________ */
+
+/* Contact form  */
+
+/* __________________________ */
+
+/* ==========================================================================
+   SUPABASE SPLIT CONTACT FORM WITH KEYFRAMES (Prefix: sb-leadform-)
+   ========================================================================== */
+.sb-leadform-wrapper {
+  padding: 100px 40px;
+  background-color: #f8fafc;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.sb-leadform-header-box {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.sb-leadform-pill-badge {
+  display: inline-block;
+  background-color: #eaf2ff;
+  color: #3182ce;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sb-leadform-wrapper .sb-leadform-main-title {
+  font-size: 36px;
+  color: #1a202c;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.sb-leadform-wrapper .sb-leadform-main-title span {
+  color: #3182ce;
+}
+
+.sb-leadform-sub-title {
+  font-size: 16px;
+  color: #718096;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Split Main Layout Grid */
+.sb-leadform-split-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+/* Left Column Graphic Side & Keyframes */
+.sb-leadform-graphic-side {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.sb-leadform-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 440px;
+  border-radius: 20px;
+  overflow: visible; /* Dynamic elements ko safe rakhne ke liye */
+  animation: sb-float-graphic 5s ease-in-out infinite;
+}
+
+.sb-leadform-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(49, 130, 206, 0.08);
+  border: 4px solid #ffffff;
+}
+
+/* Floating Status Tag on Image */
+.sb-leadform-floating-card {
+  position: absolute;
+  bottom: 30px;
+  left: -20px;
+  background: #ffffff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #edf2f7;
+  animation: sb-badge-sway 3s ease-in-out infinite;
+}
+
+.sb-leadform-floating-card p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.sb-leadform-pulse-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #38a169;
+  border-radius: 50%;
+  position: relative;
+}
+
+.sb-leadform-pulse-dot::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #38a169;
+  border-radius: 50%;
+  animation: sb-dot-pulse 1.5s infinite ease-out;
+}
+
+/* Right Column Form Container */
+.sb-leadform-box-container {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  border: 1px solid #edf2f7;
+}
+
+.sb-leadform-field-group {
+  margin-bottom: 20px;
+}
+
+.sb-leadform-field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 8px;
+}
+
+.sb-optional-tag {
+  color: #a0aec0;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* Inputs & Form Controls */
+.sb-leadform-input-ctrl,
+.sb-leadform-select-ctrl,
+.sb-leadform-textarea-ctrl {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #2d3748;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.sb-leadform-input-ctrl:focus,
+.sb-leadform-select-ctrl:focus,
+.sb-leadform-textarea-ctrl:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+}
+
+/* Button & Action styling */
+.sb-leadform-submit-action {
+  width: 100%;
+  background-color: #3182ce;
+  color: #ffffff;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.sb-leadform-submit-action:hover {
+  background-color: #2b6cb0;
+  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.2);
+}
+
+.sb-leadform-submit-action:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+/* Alerts status panels */
+.sb-leadform-status-panel {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  display: none;
+}
+
+.sb-leadform-status-panel.success {
+  display: block;
+  background-color: #f0fff4;
+  color: #38a169;
+  border: 1px solid #c6f6d5;
+}
+
+.sb-leadform-status-panel.error {
+  display: block;
+  background-color: #fff5f5;
+  color: #e53e3e;
+  border: 1px solid #fed7d7;
+}
+
+/* ==========================================================================
+   ANIMATION KEYFRAMES
+   ========================================================================== */
+@keyframes sb-float-graphic {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes sb-badge-sway {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(1deg); }
+}
+
+@keyframes sb-dot-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (AUTOMATIC VERTICAL STACK)
+   ========================================================================== */
+@media (max-width: 968px) {
+  .sb-leadform-wrapper { padding: 60px 20px; }
+  .sb-leadform-split-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .sb-leadform-image-wrapper {
+    height: 320px;
+    max-width: 100%;
+  }
+  .sb-leadform-floating-card {
+    left: 20px;
+    bottom: 20px;
+  }
+}
+
 
 /* Footer section styles */
 
