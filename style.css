@@ -16,15 +16,16 @@ body {
 }
 
 /* ===== Container ===== */
-.container {
+/* .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-}
+} */
 
 /* Google Font for premium look */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-/* ________________________________ */
+
+/* ____________________________________ */
 /* Main Header Container */
 /* ____________________________________ */
 
@@ -34,45 +35,39 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  padding: 0 40px;
+  padding: 0 20px;
 }
 
 .my-custom-header-nav-container {
   max-width: 1200px;
   margin: 0 auto;
-  height: 70px;
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
-/* Unique Logo Styles */
-.my-custom-header-logo a {
-  font-size: 24px;
-  font-weight: 700;
-  color: #2d3748;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+/* Logo */
 
-/* Blue dot for branding vibe */
-.my-custom-header-logo a::after {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background-color: #3182ce;
+.my-custom-header-logo img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
   border-radius: 50%;
-  display: inline-block;
 }
 
-/* Unique Menu Styles */
+/* Navigation Menu */
+
 .my-custom-header-menu {
   display: flex;
   list-style: none;
   gap: 32px;
   align-items: center;
+}
+
+.my-custom-header-menu-item {
+  list-style: none;
 }
 
 .my-custom-header-menu-item a {
@@ -85,12 +80,12 @@ body {
   padding: 8px 0;
 }
 
-/* Hover Effect: Text Color */
+/* Hover Effect */
+
 .my-custom-header-menu-item a:hover {
   color: #3182ce;
 }
 
-/* Hover Effect: Underline slide animation */
 .my-custom-header-menu-item a::after {
   content: '';
   position: absolute;
@@ -106,37 +101,78 @@ body {
   width: 100%;
 }
 
-/* Contact Button (CTA) Styling */
+/* Contact Button */
+
 .my-custom-header-btn-contact a {
   background-color: #3182ce;
-  color: white !important; /* Force white color */
-  padding: 8px 20px;
+  color: #ffffff !important;
+  padding: 10px 22px;
   border-radius: 6px;
-  transition: background-color 0.3s ease;
+  transition: 0.3s;
 }
 
 .my-custom-header-btn-contact a:hover {
   background-color: #2b6cb0;
 }
 
-/* Disable underline animation for Contact Button */
 .my-custom-header-btn-contact a::after {
   display: none;
 }
 
-/* Responsive Code */
+/* Hamburger Button */
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* ____________________________________ */
+/* Mobile Responsive */
+/* ____________________________________ */
+
 @media (max-width: 768px) {
+
   .my-custom-header-nav-container {
-    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 75px;
   }
+
+  .menu-toggle {
+    display: block;
+    font-size: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
   .my-custom-header-menu {
-    gap: 16px;
+    display: none;
+    position: absolute;
+    top: 75px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    flex-direction: column;
+    padding: 20px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    z-index: 999;
   }
-  .my-custom-header-menu-item a {
-    font-size: 14px;
+
+  .my-custom-header-menu.active {
+    display: flex;
   }
-  .my-custom-header-btn-contact a {
-    padding: 6px 12px;
+
+  .my-custom-header-menu li {
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
   }
 }
 
