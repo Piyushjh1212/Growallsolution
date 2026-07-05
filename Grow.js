@@ -53,22 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* ------------------------------------------------------------------------
-     2. SUPABASE REAL-TIME CONTACT FORM LOGIC (FIXED URL)
+     2. SUPABASE REAL-TIME CONTACT FORM LOGIC (FIXED SINGLE INSTANCE)
      ------------------------------------------------------------------------ */
-  // FIXED: Yahan se /rest/v1/ hata diya hai bhai, ab ye ekdum sahi endpoint hai
-  const SUPABASE_URL = "https://rlbvbbnvswuzggbpcnpn.supabase.co"; 
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsYnZiYm52c3d1emdnYnBjbnBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyMTI3MDUsImV4cCI6MjA5Nzc4ODcwNX0._zeUZjHPN3-D390QmTJxTCgVaoRCcVt4XJH25KfwrNI";          
-  
   const contactForm = document.getElementById('my-supabase-contact-form');
   const submitBtn = document.getElementById('form-submit-btn');
   const statusMsg = document.getElementById('form-status-msg');
 
-  // Form block verify karne ke baad hi trigger hoga (Prevents script breaks)
-  if (contactForm && typeof supabase !== 'undefined') {
-    
-    // Client initialization
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // CRITICAL FIX: Alag se client banane ke badle global window client use karenge
+  const supabaseClient = window.supabaseClient;
 
+  if (contactForm && supabaseClient) {
+    
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault(); // Reload freeze
 
@@ -88,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const message = document.getElementById('client-message').value;
 
       try {
-        // Direct injection to Cloud Database
+        // Direct injection to Cloud Database using unified global client
         const { data, error } = await supabaseClient
           .from('Contact')
           .insert([
@@ -122,7 +117,71 @@ document.addEventListener("DOMContentLoaded", () => {
   } else if (!contactForm) {
     console.warn("Supabase Warning: Contact form template DOM element missing on this page.");
   } else {
-    console.error("Supabase Error: CDN script link missing! Kripya header me Supabase SDK inject karein.");
+    console.error("Supabase Error: Global configuration client missing! Script tags check karein.");
   }
 
 });
+
+
+/* ------------------------------------------------------------------------
+   3. GROW LECTURE DYNAMIC CATEGORIES LOGIC
+   ------------------------------------------------------------------------ */
+async function loadCategories() {
+  const container = document.getElementById('dynamic-categories-grid');
+
+  // Content area check agar kisi dusre page par grid na ho
+  if (!container) return;
+
+  // Safety Check: Pehle dekhlo ki config load hui hai ya nahi
+  if (!window.supabaseClient) {
+    console.error("Error: Supabase client initialization miss ho gayi! Script order check karein.");
+    container.innerHTML = `<p style="color: red; font-weight: bold;">Error: Configuration issue. Please try again later.</p>`;
+    return;
+  }
+
+  // Database ke 'categories' table se saare required columns fetch karna
+  const { data: categories, error } = await window.supabaseClient
+    .from('categories')
+    .select('id, name, tag, image_url, link_url, description');
+
+  // Agar network ya database mein koi error aaye
+  if (error) {
+    console.error("Database fetch error:", error.message);
+    container.innerHTML = `<p style="color: red; font-weight: bold;">Error: Data load nahi ho paya. Please page refresh karein.</p>`;
+    return;
+  }
+
+  // Loading text ko clear karna
+  container.innerHTML = '';
+
+  // Agar database khali hai toh alert dikhayein
+  if (!categories || categories.length === 0) {
+    container.innerHTML = `<p>No categories found in the database.</p>`;
+    return;
+  }
+
+  // Har ek category ke liye dynamic card generate karna
+  categories.forEach(category => {
+    const cardHTML = `
+      <div class="my-custom-product-card" data-category-id="${category.id}">
+        <div class="my-custom-product-image-box">
+          <img src="${category.image_url}" alt="${category.name}">
+        </div>
+        <div class="my-custom-product-content">
+          <span class="my-custom-product-tag">${category.tag}</span>
+          <h3>${category.name}</h3>
+          <p>${category.description}</p>
+          <div class="my-custom-product-footer">
+            <a href="${category.link_url}?category_id=${category.id}" class="my-custom-product-btn">Explore</a>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Container ke andar card ko append (add) karte jana
+    container.innerHTML += cardHTML;
+  });
+}
+
+// Webpage load hote hi function ko execute karna
+document.addEventListener('DOMContentLoaded', loadCategories);
