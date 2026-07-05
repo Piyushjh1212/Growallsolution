@@ -2,246 +2,464 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grow All Coaching — Education & IT Solutions</title>
-  <link rel="stylesheet" href="About.css" />
-  <link rel="stylesheet" href="../style.css">
-  <link rel="icon" type="image/png"
-    href="https://res.cloudinary.com/dieboinjz/image/upload/v1739719838/mern-uploads/ejrkwcxdmqfjdxwyieo9.jpg" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <script src="../Grow.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | YourBrand EdTech</title>
+  <!-- Using Plus Jakarta Sans for a very premium, modern startup look -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
+  <style>
+    /* ================= RESET & BASICS ================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: #fafafa;
+      color: #334155;
+      /* Slate grey for better readability */
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ================= HERO SECTION ================= */
+    .hero {
+      padding: 120px 20px 80px;
+      text-align: center;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .tagline {
+      display: inline-block;
+      background: #eff6ff;
+      color: #2563eb;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 24px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: #64748b;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* ================= STORY SECTION ================= */
+    .story-section {
+      padding: 100px 0;
+      background: #ffffff;
+    }
+
+    .two-col-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: flex-start;
+    }
+
+    .section-heading {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+    }
+
+    .text-content p {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      color: #475569;
+    }
+
+    .highlight-box {
+      background: #f8fafc;
+      border-left: 4px solid #2563eb;
+      padding: 24px;
+      margin-top: 30px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .highlight-box p {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #1e293b;
+      font-style: italic;
+    }
+
+    /* ================= METHODOLOGY CARDS ================= */
+    .methodology {
+      padding: 100px 0;
+      background: #fafafa;
+    }
+
+    .center-heading {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      border-color: #cbd5e1;
+    }
+
+    .icon-wrapper {
+      width: 56px;
+      height: 56px;
+      background: #eff6ff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 24px;
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+
+    .card p {
+      font-size: 1rem;
+      color: #64748b;
+    }
+
+    /* ================= STATS SECTION ================= */
+    .stats-section {
+      background: #0f172a;
+      color: white;
+      padding: 80px 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #60a5fa;
+      /* Light blue */
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    /* ================= CTA SECTION ================= */
+    .cta-section {
+      padding: 100px 20px;
+      text-align: center;
+      background: #ffffff;
+    }
+
+    .btn {
+      background: #2563eb;
+      color: white;
+      padding: 16px 36px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.125rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 24px;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    /* ================= RESPONSIVE ================= */
+    /* ================= MOBILE RESPONSIVE OPTIMIZATIONS ================= */
+
+    @media (max-width: 768px) {
+
+      /* Container padding kam ki hai mobile screen ke liye */
+      .container {
+        padding: 0 16px;
+      }
+
+      /* Hero section adjustements */
+      .hero {
+        padding: 80px 20px 60px;
+      }
+
+      .hero-title {
+        font-size: 2.25rem !important;
+        /* Mobile pe title chhota kiya */
+        margin-bottom: 16px;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+
+      /* Story Section (Two Column to Single Column) */
+      .two-col-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .section-heading {
+        font-size: 1.8rem;
+      }
+
+      /* Stats section mobile par stack kar diya */
+      .stats-grid {
+        grid-template-columns: 1fr;
+        /* Ab sab ek ke neeche ek aayenge */
+        gap: 30px;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+      }
+
+      /* Methodology cards */
+      .cards-grid {
+        grid-template-columns: 1fr;
+        /* Cards ek ke neeche ek */
+        gap: 20px;
+      }
+
+      .card {
+        padding: 24px;
+      }
+
+      /* CTA Section adjustment */
+      .cta-section {
+        padding: 60px 20px;
+      }
+
+      .btn {
+        width: 100%;
+        /* Mobile par button bada full width ho jayega */
+        padding: 14px 20px;
+      }
+    }
+
+    /* Tablets ke liye thoda adjust */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .hero-title {
+        font-size: 3rem !important;
+      }
+    }
+
+    /* Fade-in Animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 
 <body>
-  <header>
-    <div class="container">
-      <nav>
-        <div class="logo">
-          <img src="https://res.cloudinary.com/dieboinjz/image/upload/v1739719838/mern-uploads/ejrkwcxdmqfjdxwyieo9.jpg"
-            alt="image" height="60" width="60" />
-          <h3 class="heading-Gac">
-            Grow All Coaching — Education & IT Solutions
-          </h3>
 
-          <div class="navbar-icon" onclick="HandleIconClick()">
-            <i class="fa-solid fa-bars"></i>
-            <i class="fa-solid fa-xmark"></i>
-          </div>
-
-        </div>
-        <ul id="menuList">
-          <li><a href="#about">About</a></li>
-          <li><a href="#products">Services</a></li>
-          <li><a href="#">Courses</a></li>
-          <li><a href="#">Investors</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <!-- hello world -->
-
-  <div class="growallcoaching-container">
-    <div>
-      <h1>Grow All Coaching — Education & IT Solutions</h1>
-      <p class="growallcoaching-lead">
-        Practical web development, career mentorship, and placement-ready skills — along with real-world IT solutions
-        and training programs, all delivered in simple, hands-on steps.
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container fade-in">
+      <span class="tagline">Welcome to Grow All Coaching</span>
+      <h1 class="hero-title">We don't just teach.<br>We help you build.</h1>
+      <p class="hero-subtitle">
+        Education shouldn't feel like a chore. We are on a mission to make learning practical, engaging, and directly
+        aligned with what the real world actually demands.
       </p>
     </div>
+  </section>
 
-    <section class="growallcoaching-hero">
-      <div>
-        <div class="growallcoaching-card">
-          <h2>Who We Are</h2>
-          <p>
-            Grow All Coaching — Education & IT Solutions is an ed-tech and IT solutions initiative that helps beginners
-            and career switchers
-            master real-world web development, UI/UX fundamentals, and technical interview readiness.
-            Along with professional training, we also provide customized digital solutions through
-            <strong>GrowallSolution</strong> — offering website development, consultancy, and tailored tech programs for
-            schools, colleges, and small businesses.
-          </p>
-          <p> Our focus is on hands-on projects, concise lessons, and personalized mentorship to help learners and
-            clients
-            build practical, employable, and growth-driven skills.</p>
-
-          <h3 style="margin-top:16px">Our Mission</h3>
-          <p>
-            Mission: Our mission is to make technical education and digital growth accessible to everyone.
-            We aim to empower students, professionals, and small businesses through
-            <strong>affordable learning programs</strong> and <strong>practical IT solutions</strong>.
-            By combining hands-on training, real-world projects, and customized digital services,
-            Growall Coaching (GAC) bridges the gap between learning and implementation.
-          </p>
-
-          <div class="growallcoaching-features">
-            <div class="growallcoaching-feature">
-              <strong>Project-Focused</strong>
-              <div>Each course includes real-world projects that can be showcased in your resume.</div>
-            </div>
-            <div class="growallcoaching-feature">
-              <strong>Mentorship</strong>
-              <div>Get one-on-one code reviews and personal doubt-solving sessions.</div>
-            </div>
-            <div class="growallcoaching-feature">
-              <strong>Career Support</strong>
-              <div>Resume reviews, interview preparation, and job application guidance.</div>
-            </div>
-            <div class="growallcoaching-feature">
-              <strong>Affordable</strong>
-              <div>Transparent pricing and lifetime access (Example: HTML + CSS course for ₹799 — sample model).</div>
-            </div>
-          </div>
-
-          <h3 style="margin-top:16px">What We Teach</h3>
-          <div class="growallcoaching-services">
-            <div class="growallcoaching-service">
-              <strong>HTML & CSS (Fundamentals to Advanced)</strong>
-              <div>Static websites, responsive layouts, and accessibility principles.</div>
-            </div>
-            <div class="growallcoaching-service">
-              <strong>JavaScript & Frontend</strong>
-              <div>DOM manipulation, ES6 concepts, React basics, and component building.</div>
-            </div>
-            <div class="growallcoaching-service">
-              <strong>Full-Stack Projects</strong>
-              <div>Node.js backend, MongoDB, and simple deployment workflows.</div>
-            </div>
-            <div class="growallcoaching-service">
-              <strong>Interview Prep & DSA</strong>
-              <div>Topic-wise DSA problems, coding challenges, and mock interviews.</div>
-            </div>
-          </div>
-
-          <div class="growallcoaching-cta">
-            <a class="growallcoaching-btn growallcoaching-btn-primary" href="#contact">Join Now</a>
-            <a class="growallcoaching-btn growallcoaching-btn-ghost" href="#courses">All Courses</a>
-          </div>
-        </div>
-
-        <div class="growallcoaching-testimonials">
-          <div class="growallcoaching-card">
-            <h3>What Our Students Say</h3>
-            <blockquote>"GAC’s projects boosted my confidence. Simple and practical teaching style." — Tushar Choudhary</blockquote>
-            <blockquote>"The course was affordable and really helped me in placements." — Arav Singhania</blockquote>
-          </div>
-        </div>
-      </div>
-
-      <aside class="growallcoaching-right-quick">
-        <div class="growallcoaching-card">
-          <h3>Quick Facts</h3>
-          <div class="growallcoaching-stat-grid">
-            <div class="growallcoaching-stat">
-              <div>1000+</div>
-              <div>Students</div>
-            </div>
-            <div class="growallcoaching-stat">
-              <div>4.8★</div>
-              <div>Average Rating</div>
-            </div>
-          </div>
-
-          <h4>Contact</h4>
-          <p>Email: growallcoaching@gmail.com<br>Phone: +91 70246 18290</p>
-
-          <h4>Address</h4>
-          <p>Bhopal India</p>
-        </div>
-
-        <div class="growallcoaching-card">
-          <h4>Special Service: Grow All Solution IT Services</h4>
-          <p>
-            GrowallSolution is our consultancy and custom service — designed for schools, colleges, and small
-            businesses.
-            We provide tailor-made training programs, website setup assistance, and batch-specific curriculum
-            development.
-          </p>
-        </div>
-      </aside>
-    </section>
-
-
-    <section id="courses" class="growallcoaching-card">
-      <div>
-        <h3>Popular Services</h3>
-        <ul>
-          <li>Business Website Package</li>
-          <li>Mobile App Development</li>
-          <li>MERN Stack – High-Build Website (One-Time Plan)</li>
-          <li>Learning Management System</li>
-        </ul>
-      </div>
-      <div class="coursesDetails">
-        <h3>Popular Courses</h3>
-        <ul>
-          <li>HTML & CSS — Beginner to Advanced</li>
-          <li>React Fundamentals (JSX, Vite Setup)</li>
-          <li>Full-Stack MERN Mini Projects</li>
-          <li>Interview-Ready DSA (Python / JS)</li>
-        </ul>
-      </div>
-
-    </section>
-  </div>
-
-
-
-  <!-- hello world -->
-  <footer class="footer">
-    <div class="container footer-container">
-      <!-- Company Info -->
-      <div class="footer-about">
-        <img src="https://res.cloudinary.com/dieboinjz/image/upload/v1739719838/mern-uploads/ejrkwcxdmqfjdxwyieo9.jpg"
-          alt="GAC Logo" width="60" height="60" />
-        <h3>Grow All Coaching</h3>
+  <!-- STORY SECTION -->
+  <section class="story-section">
+    <div class="container two-col-layout fade-in">
+      <div class="text-content">
+        <h2 class="section-heading">The problem we set out to solve</h2>
         <p>
-          Empowering businesses and individuals with innovative IT and
-          education solutions.
+          Kuch saal pehle, humne ek pattern notice kiya. Students degrees toh le rahe the, tutorials toh dekh rahe the,
+          par jab baat actual jobs ki ya khud ka kuch build karne ki aati thi, toh confidence missing tha.
+        </p>
+        <p>
+          Market ki requirement kuch aur thi, aur colleges/courses mein sikhaya kuch aur ja raha tha. "Tutorial Hell"
+          mein phanse hue students the, jinke paas theory ki knowledge thi, par hands-on experience zero.
+        </p>
+        <p>
+          Wahin se shuruat hui <strong>Grow All Coaching</strong> ki.
+        </p>
+
+        <div class="highlight-box">
+          <p>"Hamara goal ek simple platform banana nahi tha. Hamara goal ek aisi community banana tha jahan seekhna ek
+            process nahi, ek experience ban jaye."</p>
+        </div>
+      </div>
+
+      <div class="text-content">
+        <h2 class="section-heading">How we fix it</h2>
+        <p>
+          Humne pure learning model ko flip kar diya. Hamare yahan "Ratta maar" concept exist hi nahi karta.
+        </p>
+        <p>
+          Hum vishwas rakhte hain <strong>Project-Based Learning</strong> mein. Aap tab tak effectively nahi seekh
+          sakte, jab tak aap apne haath gande karke code/design ya build na karein. Isliye, hamara har course, har
+          module is tarah design kiya gaya hai ki aap day one se output create kar rahe hon.
+        </p>
+        <p>
+          Boring PPTs ki jagah live coding, real-life case studies, aur industry-vetted mentors. Hum aapko sirf concepts
+          nahi sikhate, hum aapko wo mindset dete hain jo ek successful professional ka hota hai.
         </p>
       </div>
+    </div>
+  </section>
 
-      <!-- Quick Links -->
-      <div class="footer-links">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#products">Products</a></li>
-        </ul>
+  <!-- STATS SECTION -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid fade-in">
+        <div>
+          <div class="stat-number">10k+</div>
+          <div class="stat-label">Active Learners</div>
+        </div>
+        <div>
+          <div class="stat-number">85%</div>
+          <div class="stat-label">Completion Rate</div>
+        </div>
+        <div>
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Industry Mentors</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY / VALUES SECTION -->
+  <section class="methodology">
+    <div class="container">
+      <div class="center-heading fade-in">
+        <h2 class="section-heading">The Grow All Coaching Way</h2>
+        <p style="color: #64748b; font-size: 1.1rem;">Ye 3 cheezein humein bheed se alag banati hain.</p>
       </div>
 
-      <!-- Contact Info -->
-      <div class="footer-contact">
-        <h4>Contact Us</h4>
-        <p>
-          Email:
-          <a href="mailto:growallcoaching@gmail.com">growallcoaching.com</a>
-        </p>
-        <p>Phone: +91 70246 18290</p>
-        <p>Address: Bhopal, MP, India</p>
+      <div class="cards-grid fade-in">
+        <!-- Card 1 -->
+        <div class="card">
+          <div class="icon-wrapper">🛠️</div>
+          <h3>Build over Watch</h3>
+          <p>Sirf videos dekhne se koi expert nahi banta. Hamare platform par aap continuously projects build karte
+            hain. Galtiyan karte hain, aur unhe theek karna seekhte hain. Yahi asli learning hai.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+          <div class="icon-wrapper">🤝</div>
+          <h3>Mentorship, not Lectures</h3>
+          <p>Hamare instructors sirf padhate nahi hain, wo guide karte hain. Wo industry experts hain jo khud roz yahi
+            kaam karte hain, isliye aapko outdated concepts nahi, balki current market trends sikhne milte hain.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+          <div class="icon-wrapper">🔥</div>
+          <h3>Community Driven</h3>
+          <p>Akele padhna boring ho sakta hai. Isliye hum ek strong community foster karte hain. Aap apne peers ke sath
+            discuss karte hain, doubts clear karte hain, aur ek doosre ko push karte hain behtar banne ke liye.</p>
+        </div>
       </div>
-
-      <!-- Social Media -->
-      <!-- <div class="footer-social">
-          <h4>Follow Us</h4>
-          <div class="social-icons">
-            <a href="#"><img src="./Assets/facebook.svg" alt="Facebook" /></a>
-            <a href="#"><img src="./Assets/twitter.svg" alt="Twitter" /></a>
-            <a href="#"><img src="./Assets/linkedin.svg" alt="LinkedIn" /></a>
-            <a href="#"><img src="./Assets/instagram.svg" alt="Instagram" /></a>
-          </div> -->
-      <!-- </div> -->
     </div>
+  </section>
 
-    <!-- Bottom -->
-    <div class="footer-bottom">
-      <p>© 2025 Grow All Coaching — All Rights Reserved.</p>
+  <!-- CTA SECTION -->
+  <section class="cta-section">
+    <div class="container fade-in">
+      <h2 class="section-heading" style="margin-bottom: 16px;">It's time to upgrade your skills.</h2>
+      <p style="color: #64748b; font-size: 1.1rem; max-width: 500px; margin: 0 auto;">
+        Don't just add another course to your backlog. Join a platform that actually guarantees your growth.
+      </p>
+      <button class="btn" onclick="window.location.href='#courses'">Explore Programs</button>
     </div>
-  </footer>
+  </section>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    // Intersection Observer for smooth scrolling fade-ins
+    const faders = document.querySelectorAll('.fade-in');
+
+    const appearOptions = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const appearOnScroll = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('appear');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+
+    // Trigger initial hero section animation immediately
+    setTimeout(() => {
+      const heroFader = document.querySelector('.hero .fade-in');
+      if (heroFader) heroFader.classList.add('appear');
+    }, 100);
+  </script>
 </body>
 
 </html>

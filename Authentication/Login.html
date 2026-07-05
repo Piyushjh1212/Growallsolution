@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Grow All Coaching</title>
+    <link rel="stylesheet" href="./Login.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../config/supabase_config.js"></script>
+
+    <script src="../Js_files/Login.js"></script>
+</head>
+
+<body>
+
+    <div class="gac-login-container">
+        <div class="gac-login-left">
+            <div class="gac-brand-logo">
+                <img src="https://res.cloudinary.com/dieboinjz/image/upload/v1772387672/GacImages/cjgywtxrv1g6etyve2rl.jpg"
+                    alt="GAC Logo">
+            </div>
+            <div class="gac-left-content">
+                <h2>Grow Your Skills,<br>Elevate Your Future.</h2>
+                <p>Welcome back! Log in to access your dashboard, premium courses, and continuous learning materials.
+                </p>
+            </div>
+            <div class="gac-left-footer">
+                &copy; 2026 Grow All Coaching. All rights reserved.
+            </div>
+        </div>
+
+        <div class="gac-login-right">
+            <div class="gac-form-header">
+                <h3>Sign In</h3>
+                <p>New to GAC? <a href="./Signup.html">Create an account</a></p>
+            </div>
+
+            <form id="gacLoginForm">
+                <div class="gac-input-group">
+                    <label for="userEmail">Email Address</label>
+                    <input type="email" id="userEmail" placeholder="Enter your email" required>
+                </div>
+
+                <div class="gac-input-group">
+                    <label for="userPassword">Password</label>
+                    <input type="password" id="userPassword" placeholder="••••••••" required>
+                </div>
+
+                <div class="gac-form-options">
+                    <label class="gac-remember">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="gac-forgot-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="gac-submit-btn">Log In</button>
+            </form>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

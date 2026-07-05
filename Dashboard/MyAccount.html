@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | Grow All Solution</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-main: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --border-color: #E2E8F0;
+            --primary: #4F46E5;
+            --primary-light: #EEF2FF;
+            --text-title: #0F172A;
+            --text-body: #475569;
+            --text-muted: #64748B;
+            --success: #10B981;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            --header-height: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            min-height: 100vh;
+        }
+
+        /* --- KHALI & MINIMAL TOP HEADER --- */
+        .clean-header {
+            height: var(--header-height);
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        /* --- MAIN CONTENT CONTAINER --- */
+        .main-container {
+            margin-top: var(--header-height);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            padding: 40px 24px;
+        }
+
+        /* --- IMAGE_2AEF20.PNG EXACT TABS REPLICATION --- */
+        .tabs-row-container {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 40px;
+            padding-bottom: 8px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .tabs-row-container::-webkit-scrollbar {
+            display: none;
+            /* Hide scrollbar for clean look */
+        }
+
+        .image-tab-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--text-body);
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        /* Active State Matching image_2aef20.png */
+        .image-tab-item.active {
+            color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .image-tab-item i {
+            font-size: 18px;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .image-tab-item.active i {
+            color: var(--primary);
+        }
+
+        /* --- BENTO GRID & ACCOUNT ASSETS --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Profile Block */
+        .profile-hero {
+            grid-column: span 2;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366F1, #4F46E5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .profile-info h2 {
+            font-size: 20px;
+            color: var(--text-title);
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Subscription Metric Card */
+        .sub-card {
+            grid-column: span 1;
+            background: linear-gradient(135deg, var(--text-title), #1E293B);
+            color: white;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sub-tier {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        /* Analytics Numbers Strip */
+        .stats-strip {
+            grid-column: span 3;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .stat-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-box h3 {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--text-title);
+        }
+
+        .stat-box p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* Left Side (Courses) */
+        .courses-section {
+            grid-column: span 2;
+        }
+
+        .section-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-title);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-row:last-child {
+            border-bottom: none;
+        }
+
+        .course-meta h4 {
+            font-size: 15px;
+            color: var(--text-title);
+            margin-bottom: 4px;
+        }
+
+        .progress-container {
+            width: 200px;
+        }
+
+        .bar-bg {
+            width: 100%;
+            height: 6px;
+            background-color: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 1.2s cubic-bezier(0.1, 0.8, 0.1, 1);
+        }
+
+        /* Right Side (Security) */
+        .side-section {
+            grid-column: span 1;
+        }
+
+        .device-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .device-item:last-child {
+            border-bottom: none;
+        }
+
+        .device-item i {
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border-color);
+            background: transparent;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-body);
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg-main);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-hero,
+            .sub-card,
+            .stats-strip,
+            .courses-section,
+            .side-section {
+                grid-column: span 1;
+            }
+
+            .stats-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stats-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Khali Top Header Bar -->
+    <header class="clean-header"></header>
+
+    <!-- Main Workspace Box -->
+    <main class="main-container">
+
+        <!-- Image_2aef20.png Navigation Implementation -->
+        <div class="tabs-row-container">
+            <div class="image-tab-item active"><i class="fa-solid fa-chart-pie"></i> Dashboard</div>
+            <div class="image-tab-item"><i class="fa-solid fa-graduation-cap"></i> My Courses</div>
+            <div class="image-tab-item"><i class="fa-solid fa-id-card"></i> Certificates</div>
+            <div class="image-tab-item"><i class="fa-solid fa-shield-halved"></i> Security</div>
+            <div class="image-tab-item"><i class="fa-solid fa-credit-card"></i> Billing</div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Profile Hero Grid -->
+            <div class="card profile-hero">
+                <div class="profile-avatar">PJ</div>
+                <div class="profile-info">
+                    <h2>Piyush Jhariya</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-top: 2px;"><i
+                            class="fa-regular fa-envelope"></i> admin@growallsolution.com</p>
+                    <div class="badge-row">
+                        <span class="tag">System Admin</span>
+                        <span class="tag">MERN Stack Developer</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Model Tracker -->
+            <div class="card sub-card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <p
+                            style="color: rgba(255,255,255,0.6); font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">
+                            ACCOUNT STATUS</p>
+                        <h3 style="font-size: 20px; margin-top: 6px; font-weight: 700;">Premium Pro Access</h3>
+                    </div>
+                    <span class="sub-tier"
+                        style="color: #10B981; background: rgba(16, 185, 129, 0.15); font-weight: 600;">Active</span>
+                </div>
+                <p style="font-size: 12px; color: rgba(255,255,255,0.4);">Renewal Date: August 01, 2026</p>
+            </div>
+
+            <!-- Learning Analytics Numbers Roll Line -->
+            <div class="stats-strip">
+                <div class="stat-box">
+                    <h3 id="stat-courses">0</h3>
+                    <p>Enrolled Courses</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="stat-hours">0</h3>
+                    <p>Hours Logged</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="stat-certs">0</h3>
+                    <p>Certificates</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="stat-points">0</h3>
+                    <p>Profile Experience Points</p>
+                </div>
+            </div>
+
+            <!-- Course Track Center -->
+            <div class="card courses-section">
+                <div class="section-header">
+                    <h3>Active Track Progression</h3>
+                    <button class="btn-outline">View Syllabus Matrix</button>
+                </div>
+
+                <div class="course-row">
+                    <div class="course-meta">
+                        <h4>Python - Data Structures & Algorithms</h4>
+                        <p style="color: var(--text-muted); font-size: 13px;">Module 4: Advanced Graphs Processing</p>
+                    </div>
+                    <div class="progress-container">
+                        <div
+                            style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; font-weight: 700;">
+                            <span>Progress</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" data-target="75%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-row">
+                    <div class="course-meta">
+                        <h4>Big Data Computing Paradigms</h4>
+                        <p style="color: var(--text-muted); font-size: 13px;">Module 2: Cloud MapReduce Architecture</p>
+                    </div>
+                    <div class="progress-container">
+                        <div
+                            style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; font-weight: 700;">
+                            <span>Progress</span>
+                            <span>45%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" data-target="45%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Logins Sessions -->
+            <div class="card side-section">
+                <div class="section-header" style="margin-bottom: 12px;">
+                    <h3>Security Sessions</h3>
+                </div>
+                <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 16px;">Connected devices checking
+                    in.</p>
+
+                <div class="device-item">
+                    <i class="fa-solid fa-laptop"></i>
+                    <div>
+                        <p style="font-weight: 600; font-size: 13px;">Windows PC • Google Chrome</p>
+                        <p style="color: var(--text-muted); font-size: 12px;">Bhopal, India • Active Now</p>
+                    </div>
+                </div>
+                <div class="device-item">
+                    <i class="fa-solid fa-mobile-button"></i>
+                    <div>
+                        <p style="font-weight: 600; font-size: 13px;">OnePlus 11 • Android App</p>
+                        <p style="color: var(--text-muted); font-size: 12px;">Last sync: 2 hours ago</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Number Roll Animation
+        function rollCounter(elementId, startValue, endValue, durationMs) {
+            let element = document.getElementById(elementId);
+            let targetRange = endValue - startValue;
+            let currentTimerStep = 50;
+            let speedStep = Math.abs(Math.floor(durationMs / targetRange));
+            speedStep = Math.max(speedStep, currentTimerStep);
+
+            let startTimestamp = new Date().getTime();
+            let endTimestamp = startTimestamp + durationMs;
+            let animationTimer;
+
+            function step() {
+                let currentTimestamp = new Date().getTime();
+                let percentageRemaining = Math.max((endTimestamp - currentTimestamp) / durationMs, 0);
+                let iterativeValue = Math.round(endValue - (percentageRemaining * targetRange));
+                element.textContent = iterativeValue.toLocaleString();
+                if (iterativeValue == endValue) {
+                    clearInterval(animationTimer);
+                }
+            }
+            animationTimer = setInterval(step, speedStep);
+        }
+
+        // Trigger Operations on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.bar-fill').forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-target');
+                });
+            }, 300);
+
+            rollCounter("stat-courses", 0, 3, 1000);
+            rollCounter("stat-hours", 0, 142, 1200);
+            rollCounter("stat-certs", 0, 8, 1100);
+            rollCounter("stat-points", 0, 3450, 1400);
+        });
+
+        // Tabs Toggle Logic
+        const tabs = document.querySelectorAll('.image-tab-item');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

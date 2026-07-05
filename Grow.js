@@ -162,17 +162,23 @@ async function loadCategories() {
 
   // Har ek category ke liye dynamic card generate karna
   categories.forEach(category => {
+    const safeName = escapeHtml(category.name || '');
+    const safeTag = escapeHtml(category.tag || '');
+    const safeDescription = escapeHtml(category.description || '');
+    const safeImage = escapeAttr(category.image_url || '');
+    const safeLink = escapeAttr(`${category.link_url || '#'}?category_id=${category.id}`);
+
     const cardHTML = `
-      <div class="my-custom-product-card" data-category-id="${category.id}">
+      <div class="my-custom-product-card" data-category-id="${escapeAttr(category.id)}">
         <div class="my-custom-product-image-box">
-          <img src="${category.image_url}" alt="${category.name}">
+          <img src="${safeImage}" alt="${safeName}">
         </div>
         <div class="my-custom-product-content">
-          <span class="my-custom-product-tag">${category.tag}</span>
-          <h3>${category.name}</h3>
-          <p>${category.description}</p>
+          <span class="my-custom-product-tag">${safeTag}</span>
+          <h3>${safeName}</h3>
+          <p>${safeDescription}</p>
           <div class="my-custom-product-footer">
-            <a href="${category.link_url}?category_id=${category.id}" class="my-custom-product-btn">Explore</a>
+            <a href="${safeLink}" class="my-custom-product-btn">Explore</a>
           </div>
         </div>
       </div>
@@ -181,6 +187,19 @@ async function loadCategories() {
     // Container ke andar card ko append (add) karte jana
     container.innerHTML += cardHTML;
   });
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value).replace(/`/g, '&#96;');
 }
 
 // Webpage load hote hi function ko execute karna

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Grow All Coaching</title>
+    <link rel="stylesheet" href="./Signup.css">
+
+    <!-- ==================== 1. Supabase CDN JavaScript Library ==================== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../Js_files/Pre_Signed_URL.js"></script>
+
+
+</head>
+
+<body>
+
+    <div class="gac-signup-container">
+        <!-- Left Side: Branding / Welcome Section -->
+        <div class="gac-signup-left">
+            <div class="gac-brand-logo">
+                <img src="https://res.cloudinary.com/dieboinjz/image/upload/v1772387672/GacImages/cjgywtxrv1g6etyve2rl.jpg"
+                    alt="GAC Logo">
+            </div>
+            <div class="gac-left-content">
+                <h2>Start Your Journey<br>With Us Today.</h2>
+                <p>Create a free account to track your courses, explore high-quality learning assets, and unlock a world
+                    of opportunities.</p>
+            </div>
+            <div class="gac-left-footer">
+                &copy; 2026 Grow All Coaching. All rights reserved.
+            </div>
+        </div>
+
+        <!-- Right Side: Signup Form Section -->
+        <div class="gac-signup-right">
+            <div class="gac-form-header">
+                <h3>Create Account</h3>
+                <p>Already have an account? <a href="login.html">Log in</a></p>
+            </div>
+
+            <form id="gacSignupForm">
+                <div class="gac-input-group">
+                    <label for="userName">Full Name</label>
+                    <input type="text" id="userName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="gac-input-group">
+                    <label for="userEmail">Email Address</label>
+                    <input type="email" id="userEmail" placeholder="example@gmail.com" required>
+                </div>
+
+                <div class="gac-input-group">
+                    <label for="userPassword">Create Password</label>
+                    <input type="password" id="userPassword" placeholder="Minimum 6 characters" minlength="6" required>
+                </div>
+
+                <label class="gac-terms">
+                    <input type="checkbox" required>
+                    <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
+                </label>
+
+                <button type="submit" class="gac-submit-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

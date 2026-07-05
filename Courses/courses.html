@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - Grow All Coaching</title>
+
+    <link rel="stylesheet" href="./Courses.css">
+
+    <link rel="stylesheet" href="../Header/Header.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+
+    <script src="../config/supabase_config.js" defer></script>
+
+    <script src="../Js_files/Header_script.js" defer></script>
+
+    <script src="./Courses.js"></script>
+</head>
+
+<body>
+
+    <div id="header-placeholder"></div>
+
+
+    <div class="gac-courses-container">
+        <h1 class="gac-courses-heading" id="gac-main-category-title">Loading Category...</h1>
+
+        <div id="gac-dynamic-subcategories-grid" class="gac-courses-grid">
+            <p class="gac-courses-loading">Loading your customized courses...</p>
+        </div>
+    </div>
+
+    <script>
+        fetch('../Header/Header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+                if (window.initializeHeaderUi) {
+                    window.initializeHeaderUi();
+                }
+            })
+            .catch(error => console.error('Failed to load header:', error));
+    </script>
+
+</body>
+
+</html>

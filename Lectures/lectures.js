@@ -1,0 +1,262 @@
+// catalog-app.js - Dynamic Syllabus & Course Details Engine
+
+async function initializeCourseCatalog() {
+    // URL se sub_category_id read karna (?sub_category_id=1)
+    const urlParams = new URLSearchParams(window.location.search);
+    const subCategoryId = urlParams.get('sub_category_id') || '1'; // Default fallback
+
+    if (!window.supabaseClient) {
+        console.error("Supabase Client initialized nahi mila! Path chain verify karein.");
+        return;
+    }
+
+    try {
+        // ==========================================
+        // FETCH DATA A: Sub-Category & Course Details
+        // ==========================================
+        const { data: subCategory, error: subError } = await window.supabaseClient
+            .from('sub_categories')
+            .select(`
+                name, 
+                price,
+                original_price,
+                instructor_name,
+                instructor_bio,
+                course_image_url,
+                categories ( name )
+            `)
+            .eq('id', subCategoryId)
+            .single();
+
+        if (subError || !subCategory) throw subError;
+
+        // 1. Breadcrumb aur Titles dynamically load karna
+        const parentCat = subCategory.categories?.name || "Development";
+        document.getElementById('db-breadcrumb').innerHTML = `${parentCat} <i class="fa-solid fa-chevron-right"></i> ${subCategory.name}`;
+        document.getElementById('db-main-title').innerHTML = `The Ultimate <span>${subCategory.name}</span> Masterclass`;
+
+        // 2. Pricing & Discount Logic Update karna
+        const priceEl = document.getElementById('course-price');
+        const origPriceEl = document.getElementById('db-original-price');
+        const discountEl = document.getElementById('db-discount-badge');
+
+        if (priceEl) {
+            priceEl.innerText = `₹${subCategory.price || 499}`;
+            // Payment gateway ke liye attribute set karna zaroori hai
+            priceEl.setAttribute('data-price', subCategory.price || 499); 
+        }
+        
+        if (origPriceEl && subCategory.original_price) {
+            origPriceEl.innerText = `₹${subCategory.original_price}`;
+            
+            // Discount percentage calculate karna
+            if (subCategory.original_price > subCategory.price) {
+                const discount = Math.round(((subCategory.original_price - subCategory.price) / subCategory.original_price) * 100);
+                discountEl.innerText = `${discount}% off`;
+            } else {
+                discountEl.style.display = 'none'; // Agar discount nahi hai toh hide kardo
+            }
+        }
+
+        // 3. Instructor Details Update karna
+        if (subCategory.instructor_name) {
+            document.getElementById('db-instructor-name').innerText = subCategory.instructor_name;
+        }
+        if (subCategory.instructor_bio) {
+            document.getElementById('db-instructor-bio').innerText = subCategory.instructor_bio;
+        }
+        if (subCategory.course_image_url) {
+            const imgEl = document.getElementById('db-instructor-img');
+            if (imgEl) imgEl.src = subCategory.course_image_url;
+        }
+
+        // 4. Default "What you'll learn" statements
+        const pointsContainer = document.getElementById('db-learning-points');
+        const defaultPoints = [
+            `Master comprehensive ${subCategory.name} workflows to build modern web solutions.`,
+            `Develop production-ready applications and deploy digital products efficiently.`,
+            `Understand structural architecture, cloud integration, and optimization patterns.`,
+            `Implement security parameters and industry-standard clean code practices.`
+        ];
+        pointsContainer.innerHTML = defaultPoints.map(pt => `<li><i class="fa-solid fa-check-double"></i> ${pt}</li>`).join('');
+
+        // ==========================================
+        // FETCH DATA B: Grouped Lectures Array Loop
+        // ==========================================
+        const { data: lectures, error: lecError } = await window.supabaseClient
+            .from('lectures')
+            .select('*')
+            .eq('sub_category_id', subCategoryId)
+            .order('id', { ascending: true });
+
+        if (lecError) throw lecError;
+
+        document.getElementById('db-total-lectures').innerText = `${lectures.length} lectures • Dynamic Syllabus Track`;
+
+        const accordionContainer = document.getElementById('db-dynamic-accordion');
+        if (!accordionContainer) return;
+        accordionContainer.innerHTML = ''; 
+
+        if (lectures.length === 0) {
+            accordionContainer.innerHTML = `<p style="text-align: center; padding: 20px; font-style: italic;">No lectures posted yet for this course. Coming soon!</p>`;
+        } else {
+            const sectionsGroup = {};
+            lectures.forEach(lec => {
+                const secName = lec.section_name || "Section 1: General Module Foundation";
+                if (!sectionsGroup[secName]) sectionsGroup[secName] = [];
+                sectionsGroup[secName].push(lec);
+            });
+
+            Object.keys(sectionsGroup).forEach((sectionTitle, idx) => {
+                const sectionLectures = sectionsGroup[sectionTitle];
+                const isFirst = idx === 0 ? 'active' : '';
+                const initialStyle = idx === 0 ? 'style="max-height: 2000px;"' : '';
+
+                let listHTML = '';
+                sectionLectures.forEach(l => {
+                    const previewTag = l.is_preview 
+                        ? `<a href="#" onclick="playVideo('${l.video_url}')"><i class="fa-solid fa-eye"></i> Preview</a>` 
+                        : '';
+                    const fileIcon = l.notes_url ? 'fa-solid fa-file-pdf' : 'fa-solid fa-circle-play';
+
+                    listHTML += `
+                        <li>
+                            <i class="${fileIcon} lecture-icon"></i>
+                            <div class="lecture-title">${l.title} ${previewTag}</div>
+                            <div class="lecture-time">${l.duration || '12:00'}</div>
+                        </li>
+                    `;
+                });
+
+                accordionContainer.innerHTML += `
+                    <div class="accordion-item ${isFirst}">
+                        <div class="accordion-header">
+                            <div><i class="fa-solid fa-chevron-down" style="margin-right: 15px; transition: 0.3s;"></i>
+                                ${sectionTitle}</div>
+                            <span style="font-size: 0.9rem; color: var(--text-light); font-weight: 500;">
+                                ${sectionLectures.length} lectures
+                            </span>
+                        </div>
+                        <div class="accordion-content" ${initialStyle}>
+                            <div class="inner-pad">
+                                <ul class="lecture-list">
+                                    ${listHTML}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            attachAccordionEvents();
+        }
+
+        // ==========================================
+        // 🟢 NEW: CHECK PURCHASE STATUS (Validity & Access)
+        // ==========================================
+        await checkPurchaseAccess(subCategoryId);
+
+    } catch (err) {
+        console.error("Database initialization failed:", err);
+    }
+}
+
+// 🟢 NEW FUNCTION: Check if user already owns this course
+// 🟢 NEW FUNCTION: Check if user already owns this course
+async function checkPurchaseAccess(courseId) {
+    if (!window.supabaseClient || !window.supabaseClient.auth) {
+        console.warn("Supabase Auth load nahi hua hai.");
+        return;
+    }
+
+    try {
+        // 1. Current user nikalo
+        const { data: authData } = await window.supabaseClient.auth.getUser();
+        const userId = authData?.user?.id;
+
+        if (!userId) return; 
+
+        // 2. Database mein check karo
+        const { data: purchaseRecord, error } = await window.supabaseClient
+            .from('purchases')
+            .select('*')
+            .eq('user_id', userId)
+            .eq('course_id', courseId)
+            .eq('status', 'completed')
+            .maybeSingle();
+
+        if (error) {
+            console.error("❌ Error fetching purchase data:", error);
+            return;
+        }
+
+        // 3. Agar record mila, toh UI update karo
+        if (purchaseRecord) {
+            const buyBtn = document.getElementById('buy-now-btn');
+            const cartBtn = document.getElementById('add-to-cart-btn'); // Naya selector
+            const priceContainer = document.getElementById('price-container'); // Price section
+            const offerTimer = document.getElementById('offer-timer'); // Timer section
+
+
+            // Buy button ko "Watch Now" banao
+            if (buyBtn) {
+                buyBtn.innerHTML = '<i class="fa-solid fa-circle-play"></i> Watch Now';
+                buyBtn.style.backgroundColor = "#10b981"; 
+                buyBtn.style.color = "#ffffff";
+                
+                // Click event replace karo
+                const newBtn = buyBtn.cloneNode(true);
+                buyBtn.parentNode.replaceChild(newBtn, buyBtn);
+                
+                newBtn.addEventListener('click', () => {
+                    alert("Redirecting to Course Player! 🚀");
+                    // window.location.href = `/player.html?course_id=${courseId}`;
+                });
+            }
+
+            // 🟢 Add to cart button ko hide karo
+            if (cartBtn) {
+                cartBtn.style.display = "none";
+            }
+
+            if (priceContainer) priceContainer.style.display = "none";
+
+            if (offerTimer) {
+        offerTimer.innerHTML = '<div style="color: #10b981; font-weight: 600; padding: 10px 0;">Check your course in My Account</div>';
+    }
+            
+            console.log("✅ User has access. UI updated.");
+        } else {
+            console.log("ℹ️ User has not purchased this course yet.");
+        }
+    } catch (error) {
+        console.error("❌ Error checking purchase history:", error);
+    }
+}
+
+
+window.playVideo = function(url) {
+    alert(`🎬 HD Video Stream Link:\n${url}`);
+};
+
+function attachAccordionEvents() {
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const item = header.parentElement;
+            const content = item.querySelector('.accordion-content');
+            const isActive = item.classList.contains('active');
+
+            document.querySelectorAll('.accordion-item').forEach(el => {
+                el.classList.remove('active');
+                el.querySelector('.accordion-content').style.maxHeight = null;
+            });
+
+            if (!isActive) {
+                item.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initializeCourseCatalog);

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Complete Masterclass | Premium Course Catalog</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="./Courses_catalog.css">
+    <link rel="stylesheet" href="../Header/Header.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="../config/supabase_config.js" defer></script>
+
+    <script src="../config/razorpay_config.js" defer></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script src="./lectures.js" defer></script>
+    <script src="../Js_files/Payment.js" defer></script>
+    <script src="../Js_files/Header_script.js" defer></script>
+</head>
+
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <div class="hero-bg">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="breadcrumb" id="db-breadcrumb">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Loading...
+                </div>
+                <h1 id="db-main-title">Loading Course Masterclass Bundle...</h1>
+                <p class="subtitle">Learn professional engineering patterns by building responsive, accessible, and
+                    stunning real-world projects. No prior experience required.</p>
+
+                <div class="hero-stats">
+                    <span class="bestseller-badge">Bestseller</span>
+                    <span class="rating">4.9
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i>
+                    </span>
+                    <a href="#" style="color:#93c5fd; font-weight: 600;">(700 ratings)</a>
+                    <span class="students"><i class="fa-solid fa-users"></i> 890 students</span>
+                </div>
+                <div class="instructor">Created by <span>Grow All Solution Expert</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+
+        <div class="left-column">
+            <div class="box active">
+                <h2>What you'll learn</h2>
+                <ul class="grid-list" id="db-learning-points">
+                    <li><i class="fa-solid fa-spinner fa-spin"></i> Compiling syllabus learning points...</li>
+                </ul>
+            </div>
+
+            <div class="curriculum-header active">
+                <h2>Course Content</h2>
+                <div class="curriculum-meta" id="db-total-lectures">Calculating modules structure...</div>
+            </div>
+
+            <div class="accordion active" id="db-dynamic-accordion">
+                <p style="text-align: center; padding: 20px; font-style: italic; color: #64748b;">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i> Fetching active dynamic tracks from database...
+                </p>
+            </div>
+
+            <h2 style="margin: 50px 0 20px 0; font-size: 1.8rem; color: var(--dark); font-weight: 800;">Instructor</h2>
+
+            <div class="instructor-profile active">
+                <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=200" alt="Instructor"
+                    class="instructor-img" id="db-instructor-img">
+                <div class="instructor-details">
+                    <h3 id="db-instructor-name">Loading Instructor...</h3>
+                    <h4>Lead Trainer & Developer</h4>
+                    <p style="color: var(--text-main); line-height: 1.6; font-size: 0.95rem;" id="db-instructor-bio">
+                        Loading bio details from the database...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="sticky-card">
+                <div class="card-video" onclick="alert('Playing Dynamic Course Preview Template Stream! 🎬')">
+                    <img src="https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?q=80&w=600"
+                        alt="Course Preview">
+                    <div class="preview-text">Preview this course</div>
+                </div>
+
+                <div class="card-content">
+                    <div class="price-section" id="price-container">
+                        <h2 id="course-price" data-price="499">...</h2>
+                        <strike id="db-original-price">...</strike>
+                        <span class="discount" id="db-discount-badge">...</span>
+                    </div>
+
+                    <div class="timer" id="offer-timer">
+                        <i class="fa-solid fa-stopwatch"></i> <b>Limited time offer</b>
+                    </div>
+
+                    <button class="btn-primary" id="add-to-cart-btn"
+                        onclick="alert('Successfully added to Cart! 🛒')">Add to cart</button>
+                    <button class="btn-secondary" id="buy-now-btn">Buy now</button>
+
+                    <div class="course-includes">
+                        <h4>This course includes:</h4>
+                        <ul class="include-list">
+                            <li><i class="fa-solid fa-video"></i> On-demand video content stream</li>
+                            <li><i class="fa-solid fa-code"></i> Real-time code exercises tracking</li>
+                            <li><i class="fa-solid fa-infinity"></i> Full lifetime credentials access</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        fetch('../Header/Header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+                if (window.initializeHeaderUi) window.initializeHeaderUi();
+            })
+            .catch(error => console.error('Failed to load header:', error));
+    </script>
+
+</body>
+
+</html>

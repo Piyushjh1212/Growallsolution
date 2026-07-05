@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Preview | Premium Light Player</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./Preview.css">
+
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="brand"><i class="fa-solid fa-play"></i> Course Preview Mode</div>
+        <a href="lectures.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Course</a>
+    </nav>
+
+    <div class="player-container">
+
+        <div class="main-video-section">
+            <div class="video-wrapper">
+                <iframe id="main-player"
+                    src="https://www.youtube.com/embed/kUMe1FH4CGY?autoplay=1&rel=0&modestbranding=1"
+                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+
+            <h1 class="video-title" id="video-title">1. Welcome to the Course! (Preview)</h1>
+
+            <div class="video-meta-row">
+                <div class="instructor-info">
+                    <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=100" alt="Instructor">
+                    <div>
+                        <h4>Vinod Kumar <i class="fa-solid fa-circle-check"
+                                style="color: var(--accent-blue); font-size: 0.8rem;"></i></h4>
+                        <span>1.2M Students</span>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button><i class="fa-regular fa-thumbs-up"></i> 1.2k</button>
+                    <button><i class="fa-solid fa-share"></i> Share</button>
+                    <button><i class="fa-regular fa-bookmark"></i> Save</button>
+                </div>
+            </div>
+
+            <div class="description-box">
+                <span><i class="fa-solid fa-unlock"></i> Free Preview • Section 1: Getting Started</span>
+                <p>In this introductory video, we will walk through the core concepts of the masterclass. You will learn
+                    how the curriculum is structured and what tools you need to install before we write our first line
+                    of code.</p>
+            </div>
+        </div>
+
+        <div class="playlist-container">
+            <div class="playlist-header">
+                <h3>Course Curriculum Preview</h3>
+                <p>Showing free preview videos and locked content.</p>
+            </div>
+
+            <div class="enroll-banner" onclick="alert('Redirecting to Checkout / Cart! 🛒')">
+                <i class="fa-solid fa-unlock-keyhole"></i> Enroll to Unlock All 85 Lectures
+            </div>
+
+            <div class="playlist-items">
+                <div class="playlist-item active"
+                    onclick="changeVideo('https://www.youtube.com/embed/kUMe1FH4CGY?autoplay=1&rel=0', '1. Welcome to the Course! (Preview)', this)">
+                    <div class="thumb">
+                        <img src="https://img.youtube.com/vi/kUMe1FH4CGY/hqdefault.jpg" alt="Thumb">
+                        <span class="duration">10:15</span>
+                    </div>
+                    <div class="details">
+                        <h4>1. Welcome to the Course! (Preview)</h4>
+                        <p>Section 1 • Preview</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item"
+                    onclick="changeVideo('https://www.youtube.com/embed/88PXJAA6szs?autoplay=1&rel=0', '2. How the Web Actually Works', this)">
+                    <div class="thumb">
+                        <img src="https://img.youtube.com/vi/88PXJAA6szs/hqdefault.jpg" alt="Thumb">
+                        <span class="duration">08:30</span>
+                    </div>
+                    <div class="details">
+                        <h4>2. How the Web Actually Works</h4>
+                        <p>Section 1 • Preview</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item"
+                    onclick="changeVideo('https://www.youtube.com/embed/B-s71n0dHUk?autoplay=1&rel=0', '3. Setting up VS Code & Extensions', this)">
+                    <div class="thumb">
+                        <img src="https://img.youtube.com/vi/B-s71n0dHUk/hqdefault.jpg" alt="Thumb">
+                        <span class="duration">12:45</span>
+                    </div>
+                    <div class="details">
+                        <h4>3. Setting up VS Code & Extensions</h4>
+                        <p>Section 1 • Preview</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item locked" onclick="showLockedMessage()">
+                    <div class="thumb">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=300" alt="Thumb">
+                        <span class="duration">15:20</span>
+                    </div>
+                    <div class="details">
+                        <h4>4. HTML Boilerplate and Document Structure</h4>
+                        <p>Section 2 • Pro Only</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item locked" onclick="showLockedMessage()">
+                    <div class="thumb">
+                        <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=300" alt="Thumb">
+                        <span class="duration">18:05</span>
+                    </div>
+                    <div class="details">
+                        <h4>5. Headings, Paragraphs, and Typography</h4>
+                        <p>Section 2 • Pro Only</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item locked" onclick="showLockedMessage()">
+                    <div class="thumb">
+                        <img src="https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?q=80&w=300" alt="Thumb">
+                        <span class="duration">25:00</span>
+                    </div>
+                    <div class="details">
+                        <h4>6. HTML Tables: Structuring Tabular Data Professionally</h4>
+                        <p>Section 2 • Pro Only</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function changeVideo(videoUrl, title, element) {
+            // 1. Iframe source update karna
+            document.getElementById('main-player').src = videoUrl;
+
+            // 2. Video Title update karna
+            document.getElementById('video-title').innerText = title;
+
+            // 3. Active class change karna (Highlight active video in blueish tone)
+            let items = document.querySelectorAll('.playlist-item');
+            items.forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+
+            // 4. Smooth scroll top if on mobile
+            if (window.innerWidth <= 1024) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function showLockedMessage() {
+            alert("🔒 This video is locked! Please 'Enroll to Unlock All Lectures' to view this premium content.");
+        }
+    </script>
+
+</body>
+
+</html>

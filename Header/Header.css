@@ -1,0 +1,216 @@
+/* --- Reset & Base Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+/* --- Header Styles --- */
+.gac-main-header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 12px 0;
+}
+
+.gac-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* --- Logo Area --- */
+.gac-logo-area {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.gac-logo-img {
+    height: 85px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+/* --- Navigation Menu --- */
+.gac-nav-menu {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.gac-menu-list {
+    display: flex;
+    list-style: none;
+    gap: 28px;
+    align-items: center;
+}
+
+.gac-nav-link {
+    text-decoration: none;
+    color: #333333;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.gac-nav-link:hover {
+    color: #007bff;
+}
+
+/* --- Auth & CTA Buttons --- */
+.gac-right-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+/* Login Button */
+.gac-login-btn {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 9px 18px;
+    border: 1.5px solid #007bff;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.gac-login-btn:hover {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+/* Signup Button */
+.gac-signup-btn {
+    text-decoration: none;
+    background-color: #007bff;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.gac-signup-btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+    transform: translateY(-1px);
+}
+
+/* My Account Button */
+.gac-account-btn {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 9px 18px;
+    transition: color 0.3s ease;
+}
+
+.gac-account-btn:hover {
+    color: #007bff;
+}
+
+/* Logout Button */
+.gac-logout-btn {
+    text-decoration: none;
+    background-color: #dc3545;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 9px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.gac-logout-btn:hover {
+    background-color: #c82333;
+}
+
+/* --- Hamburger / Mobile Menu --- */
+.gac-nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.gac-hamburger {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    border-radius: 2px;
+}
+
+/* --- Mobile View Support --- */
+@media (max-width: 992px) {
+    .gac-logo-img {
+        height: 65px;
+    }
+
+    .gac-nav-toggle {
+        display: flex;
+    }
+
+    .gac-nav-menu {
+        display: none;
+    }
+
+    .gac-nav-menu.active {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        padding: 16px 20px 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        border-top: 1px solid #f1f3f5;
+        z-index: 1100;
+    }
+
+    .gac-nav-menu.active .gac-menu-list {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 14px;
+    }
+
+    .gac-right-area {
+        gap: 8px;
+    }
+
+    .gac-login-btn,
+    .gac-signup-btn,
+    .gac-account-btn,
+    .gac-logout-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
+/* CRITICAL FIX: JavaScript is class ko lagakar elements ko force-hide karegi */
+.gac-force-hide {
+    display: none !important;
+}
