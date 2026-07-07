@@ -227,7 +227,7 @@
 
   <!-- Footer section start  -->
 
-  <div class="global-footer"></div>
+  <div id="footer-placeholder"></div>
 
   <!-- whatsapp floating button  -->
 
@@ -236,6 +236,15 @@
     <div class="my-custom-wa-pulse"></div>
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
   </a>
+
+  <script>
+    fetch('./Footer/Footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Failed to load footer:', error));
+  </script>
 
 
   <script>
