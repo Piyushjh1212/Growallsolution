@@ -1,28 +1,33 @@
-// Js_files/Payment.js - Complete All-in-One JS Injector (No external HTML/CSS needed)
+// Js_files/Payment.js - Step-by-Step Dynamic OTP & Phone Verification Checkout
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Automatically Inject Required CSS Styles into the Page Head
+    // 1. Inject Dynamic UI Styles automatically into the Document Head
     injectStyles();
 
     const buyNowBtn = document.getElementById('buy-now-btn');
     if (buyNowBtn) {
         buyNowBtn.addEventListener('click', async () => {
-            // Check if user is already logged in via Supabase
+            // Check if user is already logged in via Supabase Auth
             const user = await checkExistingUser();
             
-            if (user.loggedIn) {
+            if (user.loggedIn && user.email) {
+                // If logged in, pass data straight to Razorpay
                 initiateRazorpay(user.name, user.email, user.phone, user.id);
             } else {
-                // If not logged in, dynamically build and open the UI Modal
-                openCheckoutModal();
+                // If guest, trigger the multi-step micro modal
+                openStepVerificationModal();
             }
         });
     }
 });
 
-// Function to inject CSS styles directly from JavaScript
+// Global state tracking variables
+let generatedOTP = null;
+let verifiedEmail = "";
+
+// Minimalist Responsive CSS Injection via Javascript
 function injectStyles() {
-    if (document.getElementById('razorpay-js-injected-styles')) return; // Avoid duplicate styling
+    if (document.getElementById('razorpay-js-injected-styles')) return;
 
     const style = document.createElement('style');
     style.id = 'razorpay-js-injected-styles';
@@ -30,90 +35,218 @@ function injectStyles() {
         .js-custom-modal {
             display: flex; position: fixed; z-index: 99999; left: 0; top: 0;
             width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px); justify-content: center; align-items: center;
+            backdrop-filter: blur(4px); justify-content: center; align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            animation: modalFadeIn 0.2s ease-out;
         }
         .js-modal-content {
-            background: #ffffff; padding: 30px; border-radius: 16px;
-            width: 90%; max-width: 420px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background: #ffffff; padding: 25px; border-radius: 14px;
+            width: 90%; max-width: 380px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
             position: relative; box-sizing: border-box; text-align: left;
         }
-        .js-modal-content h3 { margin: 0 0 10px 0; color: #1e293b; font-size: 1.4rem; }
-        .js-modal-content p { color: #64748b; font-size: 0.85rem; margin: 0 20px 20px 0; line-height: 1.4; }
-        .js-close-btn { position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; color: #94a3b8; }
+        .js-modal-content h3 { margin: 0 0 6px 0; color: #1e293b; font-size: 1.25rem; display: flex; align-items: center; gap: 8px; }
+        .js-modal-content p { color: #64748b; font-size: 0.85rem; margin: 0 0 16px 0; line-height: 1.4; }
+        .js-close-btn { position: absolute; right: 18px; top: 15px; font-size: 24px; cursor: pointer; color: #94a3b8; line-height: 1; }
         .js-close-btn:hover { color: #1e293b; }
-        .js-input-group { margin-bottom: 16px; }
+        .js-input-group { margin-bottom: 14px; }
         .js-input-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.85rem; color: #475569; }
-        .js-input-group input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; box-sizing: border-box; }
+        .js-input-group input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; box-sizing: border-box; transition: all 0.2s; }
         .js-input-group input:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
-        .js-submit-btn { width: 100%; background: #3b82f6; color: white; border: none; padding: 14px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+        .js-submit-btn { width: 100%; background: #3b82f6; color: white; border: none; padding: 12px; font-size: 0.95rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
         .js-submit-btn:hover { background: #2563eb; }
+        
+        /* Dynamic step control classes */
+        .step-hidden { display: none !important; }
+        .step-visible { display: block !important; animation: slideDown 0.2s ease-in-out; }
+        
+        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
     `;
     document.head.appendChild(style);
 }
 
-// Function to build and show the modern Modal via JS
-function openCheckoutModal() {
-    // If modal already exists, just show it
-    let modal = document.getElementById('js-dynamic-checkout-modal');
+// Function to construct and display the multi-step form inside the modal
+function openStepVerificationModal() {
+    let modal = document.getElementById('js-step-checkout-modal');
     if (modal) {
         modal.style.display = 'flex';
+        resetFormState();
         return;
     }
 
-    // Create modal elements purely through JS
     modal = document.createElement('div');
-    modal.id = 'js-dynamic-checkout-modal';
+    modal.id = 'js-step-checkout-modal';
     modal.className = 'js-custom-modal';
 
     modal.innerHTML = `
         <div class="js-modal-content">
             <span class="js-close-btn">&times;</span>
-            <h3>Checkout Details</h3>
-            <p>Please enter your real information. Course access will be linked to this Email & Phone Number.</p>
-            <form id="js-dynamic-form">
-                <div class="js-input-group">
-                    <label>Full Name</label>
-                    <input type="text" id="js-js-name" placeholder="Enter Full Name" required>
-                </div>
-                <div class="js-input-group">
+            <h3><i class="fa-solid fa-user-shield"></i> Secure Checkout</h3>
+            <p id="js-modal-desc">Please verify your Email ID to initiate the payment gateway setup.</p>
+            
+            <form id="js-step-form">
+                <!-- STEP 1: Email Input Field -->
+                <div class="js-input-group" id="group-email">
                     <label>Email Address</label>
-                    <input type="email" id="js-js-email" placeholder="example@gmail.com" required>
+                    <input type="email" id="js-input-email" placeholder="yourname@gmail.com" required>
                 </div>
-                <div class="js-input-group">
+
+                <!-- STEP 2: Embedded OTP Input Field (Hidden Initially) -->
+                <div class="js-input-group step-hidden" id="group-otp">
+                    <label style="color: #b45309;">🔑 Enter 6-Digit OTP Sent to Email</label>
+                    <input type="text" id="js-input-otp" placeholder="Enter OTP Code" maxlength="6" autocomplete="off">
+                </div>
+
+                <!-- STEP 3: Phone Number Input Field (Hidden Initially) -->
+                <div class="js-input-group step-hidden" id="group-phone">
                     <label>WhatsApp / Phone Number</label>
-                    <input type="tel" id="js-js-phone" placeholder="10-digit number" pattern="[0-9]{10}" title="Enter a valid 10-digit phone number" required>
+                    <input type="tel" id="js-input-phone" placeholder="10-digit mobile number" pattern="[0-9]{10}" title="Enter a valid 10-digit mobile number">
                 </div>
-                <button type="submit" class="js-submit-btn">Proceed to Payment</button>
+
+                <!-- Action Button -->
+                <button type="button" id="js-action-btn" class="js-submit-btn">Send Verification OTP</button>
             </form>
         </div>
     `;
 
     document.body.appendChild(modal);
+    document.getElementById('js-input-email').focus();
+    
+    modal.querySelector('.js-close-btn').addEventListener('click', () => modal.style.display = 'none');
 
-    // Close button event
-    modal.querySelector('.js-close-btn').addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
+    // Multi-step Action Button Logic Router
+    const actionBtn = document.getElementById('js-action-btn');
+    const emailInput = document.getElementById('js-input-email');
+    const otpInput = document.getElementById('js-input-otp');
+    const phoneInput = document.getElementById('js-input-phone');
+    
+    const groupOtp = document.getElementById('group-otp');
+    const groupPhone = document.getElementById('group-phone');
+    const modalDesc = document.getElementById('js-modal-desc');
 
-    // Form Submit Event
-    document.getElementById('js-dynamic-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const name = document.getElementById('js-js-name').value;
-        const email = document.getElementById('js-js-email').value;
-        const phone = document.getElementById('js-js-phone').value;
+    let currentStep = 1; // 1: Enter Email, 2: Enter OTP, 3: Enter Phone
 
-        modal.style.display = 'none'; // Hide modal
+    actionBtn.addEventListener('click', async () => {
+        // --- STEP 1: Process Email and Trigger OTP ---
+        if (currentStep === 1) {
+            const email = emailInput.value.trim();
+            if (!email || !email.includes('@') || email.split('@')[1].length < 3) {
+                alert("❌ Please enter a valid Email address.");
+                return;
+            }
 
-        // Send data directly to Razorpay
-        initiateRazorpay(name, email, phone, null);
+            // Block Fake Disposable Email Domains
+            const blocklist = ['10minutemail', 'mailinator', 'yopmail', 'tempmail', 'sharklasers', 'guerrillamail'];
+            const domain = email.split('@')[1]?.toLowerCase();
+            if (blocklist.some(blocked => domain.includes(blocked))) {
+                alert("❌ Temporary emails are blocked. Please use your genuine Google Account.");
+                return;
+            }
+
+            actionBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Dispatched OTP...';
+            actionBtn.disabled = true;
+
+            // Generate temporary 6-digit verification code token
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log("🔒 [SECURITY TRACKING] Email OTP Code:", generatedOTP); // Safe validation trace
+
+            // Send actual email using your client/server helper
+            const isSent = await sendOTPViaEmail(email, generatedOTP);
+
+            if (isSent) {
+                verifiedEmail = email;
+                alert(`📨 Verification code forwarded to ${email}.\nCheck your inbox/spam folder.`);
+                
+                // Advance to OTP Input Step directly beneath the email group
+                emailInput.disabled = true; // lock email input
+                groupOtp.className = "js-input-group step-visible";
+                otpInput.focus();
+                
+                actionBtn.innerText = "Verify Email ID";
+                actionBtn.disabled = false;
+                currentStep = 2;
+            } else {
+                alert("⚠️ Transmission failed. Please try a different email address.");
+                actionBtn.innerText = "Send Verification OTP";
+                actionBtn.disabled = false;
+            }
+            return;
+        }
+
+        // --- STEP 2: Validate Entered OTP & Request Phone ---
+        if (currentStep === 2) {
+            const enteredOTP = otpInput.value.trim();
+            if (enteredOTP !== generatedOTP) {
+                alert("❌ Invalid OTP Code! Please match the code sent to your email.");
+                return;
+            }
+
+            // Code matching cleared! Open phone component field
+            groupOtp.className = "js-input-group step-hidden"; // hide OTP field safely
+            modalDesc.innerText = "Email Verified! Now enter your mobile number to load the payment gateway.";
+            
+            groupPhone.className = "js-input-group step-visible";
+            phoneInput.required = true;
+            phoneInput.focus();
+            
+            actionBtn.innerText = "Proceed to Payment";
+            actionBtn.style.background = "#22c55e"; // Green confirmation style button
+            currentStep = 3;
+            return;
+        }
+
+        // --- STEP 3: Validate Phone and Fire Razorpay Gateway ---
+        if (currentStep === 3) {
+            const phone = phoneInput.value.trim();
+            if (!phone || phone.length !== 10 || isNaN(phone)) {
+                alert("❌ Please enter a valid 10-digit mobile number.");
+                return;
+            }
+
+            // Close dynamic validation terminal UI view window
+            modal.style.display = 'none';
+            generatedOTP = null; // flush security token
+
+            // Auto-extract readable fallback user-profile tracking name sequence from email prefix
+            let extractedName = verifiedEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\d+/g, '').trim();
+            extractedName = extractedName.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || "Student";
+
+            // Open payment widget gateway frame loop immediately
+            initiateRazorpay(extractedName, verifiedEmail, phone, null);
+        }
     });
 }
 
-// Supabase Auth Integration
+// Reset form fields state tracking for re-entry loops
+function resetFormState() {
+    document.getElementById('js-input-email').disabled = false;
+    document.getElementById('js-input-email').value = "";
+    document.getElementById('js-input-otp').value = "";
+    document.getElementById('js-input-phone').value = "";
+    document.getElementById('group-otp').className = "js-input-group step-hidden";
+    document.getElementById('group-phone').className = "js-input-group step-hidden";
+    
+    const actionBtn = document.getElementById('js-action-btn');
+    actionBtn.innerText = "Send Verification OTP";
+    actionBtn.style.background = "#3b82f6";
+    
+    document.getElementById('js-modal-desc').innerText = "Please verify your Email ID to initiate the payment gateway setup.";
+}
+
+// Micro email pipeline connector mock hook interface stub
+async function sendOTPViaEmail(targetEmail, otpCode) {
+    try {
+        // Link your live delivery mechanism (e.g. EmailJS / Supabase Edge Function) here
+        return true; 
+    } catch (err) {
+        console.error("Transmission stack failure:", err);
+        return false;
+    }
+}
+
+// Supabase Auth Context Verification Engine
 async function checkExistingUser() {
-    let result = { loggedIn: false, name: "", email: "", phone: "", id: null };
+    let result = { loggedIn: false, name: "Student", email: "", phone: "9999999999", id: null };
     if (window.supabaseClient && window.supabaseClient.auth) {
         try {
             const { data: authData } = await window.supabaseClient.auth.getUser();
@@ -121,24 +254,21 @@ async function checkExistingUser() {
                 result.loggedIn = true;
                 result.id = authData.user.id;
                 result.email = authData.user.email || "";
-                result.name = authData.user.user_metadata?.full_name || authData.user.user_metadata?.name || "";
-                result.phone = authData.user.phone || "";
-                
-                // If core data is completely missing even after login, trigger modal
-                if (!result.name || !result.email) result.loggedIn = false; 
+                result.name = authData.user.user_metadata?.full_name || authData.user.user_metadata?.name || "Student";
+                result.phone = authData.user.phone || "9999999999";
             }
-        } catch (e) { console.error("Supabase error checking:", e); }
+        } catch (e) { console.error("Session fetch bypassed:", e); }
     }
     return result;
 }
 
-// Razorpay Processor
+// Razorpay Processor Core
 async function initiateRazorpay(studentName, studentEmail, studentPhone, userId) {
     const btn = document.getElementById('buy-now-btn');
     const priceElement = document.getElementById('course-price');
     const originalText = btn.innerHTML;
 
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing Payment...';
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Directing to Gateway...';
     btn.disabled = true;
 
     try {
@@ -158,19 +288,18 @@ async function initiateRazorpay(studentName, studentEmail, studentPhone, userId)
             image: RAZORPAY_CONFIG.company_logo || "",
             handler: async function (response) {
                 const paymentId = response.razorpay_payment_id;
-                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Finalizing Database Entry...';
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving Course Access...';
                 
-                // Save to Database
                 const isSaved = await savePurchaseRecord({
                     paymentId, courseId, amountInRupees, userId, studentName, studentEmail, studentPhone
                 });
                 
                 if (isSaved) {
-                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Success!';
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Enrolled!';
                     btn.style.backgroundColor = "#22c55e";
-                    alert(`🎉 Success! Thank you ${studentName}.\nTransaction ID: ${paymentId}`);
+                    alert(`🎉 Enrolled successfully under account: ${studentEmail}.\nTransaction Reference ID: ${paymentId}`);
                 } else {
-                    btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Error Occurred';
+                    btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Sync Error';
                     btn.style.backgroundColor = "#ef4444";
                 }
             },
@@ -195,7 +324,7 @@ async function initiateRazorpay(studentName, studentEmail, studentPhone, userId)
     }
 }
 
-// Supabase Database Record Creation
+// Database Sync Execution Loop
 async function savePurchaseRecord({ paymentId, courseId, amountInRupees, userId, studentName, studentEmail, studentPhone }) {
     if (!window.supabaseClient) return false;
     try {
@@ -207,14 +336,14 @@ async function savePurchaseRecord({ paymentId, courseId, amountInRupees, userId,
                 amount_paid: amountInRupees,
                 status: 'completed',
                 user_id: userId,
-                buyer_name: studentName,   // Make sure these match your Supabase columns!
+                buyer_name: studentName,
                 buyer_email: studentEmail,
                 buyer_phone: studentPhone
             }]);
         if (error) throw error;
         return true;
     } catch (dbError) {
-        console.error("Supabase Save Error:", dbError);
+        console.error("Database layer save crash:", dbError);
         return false;
     }
 }

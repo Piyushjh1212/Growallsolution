@@ -1,408 +1,587 @@
+/* ==========================================================================
+   Preview.css - Modern Premium Light Player Architecture (Scoped Version)
+   ========================================================================== */
 
-        /* =========================================
-           ADVANCED CSS - PREMIUM LIGHT MODE
-           ========================================= */
-        :root {
-            --bg-main: #f8fafc;
-            /* Soft light background */
-            --bg-card: #ffffff;
-            /* Pure white for cards */
-            --bg-hover: #f1f5f9;
-            /* Light gray for hover */
-            --text-main: #0f172a;
-            /* Dark slate for primary text */
-            --text-muted: #64748b;
-            /* Gray for secondary text */
-            --accent-blue: #2563eb;
-            /* Professional blue */
-            --accent-red: #ef4444;
-            /* YouTube/Play red */
-            --border-color: #e2e8f0;
-            /* Light borders */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
-        }
+/* Core Variables & System Colors inside Scoped Theme root */
+:root {
+    --vpp-bg-main: #f8fafc;
+    --vpp-surface: #ffffff;
+    --vpp-text-primary: #0f172a;
+    --vpp-text-secondary: #475569;
+    --vpp-accent-blue: #2563eb;
+    --vpp-accent-blue-hover: #1d4ed8;
+    --vpp-border-color: #e2e8f0;
+    --vpp-radius-lg: 16px;
+    --vpp-radius-md: 12px;
+    --vpp-radius-sm: 8px;
+    --vpp-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    --vpp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --vpp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    --vpp-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
-        }
+/* Global Scope Overrides safe alignment */
+.vpp-body-terminal {
+    background-color: var(--vpp-bg-main);
+    color: var(--vpp-text-primary);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+}
 
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            overflow-x: hidden;
-        }
+/* 1. Main Grid Layout Container */
+.vpp-player-container-root {
+    max-width: 1440px;
+    margin: 30px auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 28px;
+    box-sizing: border-box;
+}
 
-        /* Clean Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
+/* 2. Left Column: Main Player Engine Area */
+.vpp-main-video-section {
+    display: flex;
+    flex-direction: column;
+}
 
-        ::-webkit-scrollbar-track {
-            background: var(--bg-main);
-        }
+/* Start here now  */
 
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-        }
+/* ==========================================================================
+   Fullscreen Button Styling & Layout Fixes
+   ========================================================================== */
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+#vpp-fullscreen-toggle {
+    background: transparent;
+    border: none;
+    color: #ffffff; /* White icon default */
+    font-size: 1.1rem; /* Perfect control size icon */
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+}
 
-        /* --- Animations --- */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
+/* Hover Effect: Soft highlights on controller action overlay */
+#vpp-fullscreen-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #4ade80; /* Grow All Solutions theme match (soft green) or change to your brand color */
+    transform: scale(1.08);
+}
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+/* Click/Active Snap Feedback */
+#vpp-fullscreen-toggle:active {
+    transform: scale(0.95);
+}
 
-        @keyframes pulseGlow {
-            0% {
-                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.3);
-            }
+/* Optional: Agar full-screen par browser ke default overlay controls background glitch karein */
+:-webkit-full-screen #vpp-youtube-native-target {
+    width: 100% !important;
+    height: 100% !important;
+    background: #000000;
+}
 
-            70% {
-                box-shadow: 0 0 0 8px rgba(37, 99, 235, 0);
-            }
+:-ms-fullscreen #vpp-youtube-native-target {
+    width: 100% !important;
+    height: 100% !important;
+    background: #000000;
+}
 
-            100% {
-                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
-            }
-        }
+:fullscreen #vpp-youtube-native-target {
+    width: 100% !important;
+    height: 100% !important;
+    background: #000000;
+}
 
-        /* --- Navbar --- */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow-sm);
-        }
+/* 16:9 Aspect Ratio Cinematic Box Frame */
+.vpp-video-wrapper-frame {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    background-color: #000000;
+    border-radius: var(--vpp-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--vpp-shadow-lg);
+}
 
-        .navbar .brand {
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            color: var(--text-main);
-        }
+.vpp-video-wrapper-frame iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
 
-        .navbar .brand i {
-            color: var(--accent-red);
-            margin-right: 8px;
-        }
+/* Video Metadata Card Setup */
+.vpp-video-title-display {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--vpp-text-primary);
+    margin: 20px 0 14px 0;
+    line-height: 1.3;
+}
 
-        .back-btn {
-            background: var(--bg-main);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 8px 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+.vpp-video-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--vpp-border-color);
+    margin-bottom: 20px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
 
-        .back-btn:hover {
-            background: var(--border-color);
-        }
+.vpp-instructor-info-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-        /* --- Main Player Layout --- */
-        .player-container {
-            display: grid;
-            grid-template-columns: 70% 30%;
-            gap: 24px;
-            padding: 24px 30px;
-            max-width: 1600px;
-            margin: 0 auto;
-            animation: fadeIn 0.5s ease-out;
-        }
+.vpp-instructor-info-block img {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--vpp-border-color);
+}
 
-        /* --- Left Column: Video & Info --- */
-        .video-wrapper {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-        }
+.vpp-instructor-info-block h4 {
+    margin: 0 0 2px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--vpp-text-primary);
+}
 
-        .video-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+.vpp-instructor-info-block span {
+    font-size: 0.85rem;
+    color: var(--vpp-text-secondary);
+}
 
-        .video-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin: 20px 0 10px 0;
-        }
+/* Meta Action Interaction Controls */
+.vpp-action-buttons-group {
+    display: flex;
+    gap: 10px;
+}
 
-        .video-meta-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
+.vpp-meta-btn {
+    background-color: var(--vpp-surface);
+    border: 1px solid var(--vpp-border-color);
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--vpp-text-secondary);
+    border-radius: 30px; /* Capsule pill look */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--vpp-transition);
+    box-shadow: var(--vpp-shadow-sm);
+}
 
-        .instructor-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+.vpp-meta-btn:hover {
+    background-color: var(--vpp-bg-main);
+    color: var(--vpp-text-primary);
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+}
 
-        .instructor-info img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--border-color);
-        }
+/* Rich Course Description Card Container */
+.vpp-description-box-card {
+    background-color: var(--vpp-surface);
+    border: 1px solid var(--vpp-border-color);
+    border-radius: var(--vpp-radius-md);
+    padding: 20px;
+    box-shadow: var(--vpp-shadow-sm);
+}
 
-        .instructor-info h4 {
-            font-size: 1rem;
-            color: var(--text-main);
-        }
+.vpp-description-box-card span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--vpp-accent-blue);
+    background-color: rgba(37, 99, 235, 0.08);
+    padding: 5px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+}
 
-        .instructor-info span {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
+.vpp-description-box-card p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--vpp-text-secondary);
+}
 
-        .action-buttons button {
-            background: var(--bg-main);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 8px 18px;
-            border-radius: 20px;
-            margin-left: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: 0.2s;
-        }
 
-        .action-buttons button:hover {
-            background: var(--bg-hover);
-        }
+/* 3. Right Column: Premium Sidebar Playlist */
+.vpp-playlist-container-sidebar {
+    background-color: var(--vpp-surface);
+    border: 1px solid var(--vpp-border-color);
+    border-radius: var(--vpp-radius-lg);
+    box-shadow: var(--vpp-shadow-md);
+    display: flex;
+    flex-direction: column;
+    max-height: 780px; /* Restrict screen spill */
+    overflow: hidden;
+}
 
-        .description-box {
-            background: var(--bg-card);
-            padding: 18px;
-            border-radius: 12px;
-            margin-top: 20px;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-        }
+.vpp-playlist-header-node {
+    padding: 20px;
+    border-bottom: 1px solid var(--vpp-border-color);
+}
 
-        .description-box span {
-            color: var(--accent-blue);
-            font-weight: 600;
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-        }
+.vpp-playlist-header-node h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--vpp-text-primary);
+}
 
-        /* --- Right Column: Playlist --- */
-        .playlist-container {
-            display: flex;
-            flex-direction: column;
-            height: calc(100vh - 120px);
-            background: var(--bg-card);
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-            padding: 15px;
-        }
+.vpp-playlist-header-node p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--vpp-text-secondary);
+}
 
-        .playlist-header {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
+/* CTAs Highlight Banner (Sales booster) */
+.vpp-enroll-banner-trigger {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--vpp-transition);
+}
 
-        .playlist-header h3 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: var(--text-main);
-        }
+.vpp-enroll-banner-trigger:hover {
+    filter: brightness(1.1);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15);
+}
 
-        .playlist-header p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
+/* Scrollable Playlist View Engine Wrapper */
+.vpp-playlist-items-wrapper {
+    overflow-y: auto;
+    flex: 1;
+}
 
-        .enroll-banner {
-            background: var(--accent-blue);
-            color: #fff;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            margin-bottom: 15px;
-            cursor: pointer;
-            animation: pulseGlow 2s infinite;
-            transition: 0.3s;
-        }
+/* Custom Scrollbar configuration for Sidebar elements */
+.vpp-playlist-items-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.vpp-playlist-items-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+.vpp-playlist-items-wrapper::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
 
-        .enroll-banner:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-        }
+/* 4. Single Interactive Playlist Video Card */
+.vpp-playlist-item-card {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    transition: var(--vpp-transition);
+    align-items: center;
+}
 
-        .playlist-items {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
+.vpp-playlist-item-card:hover {
+    background-color: #f8fafc;
+}
 
-        .playlist-item {
-            display: flex;
-            gap: 12px;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-bottom: 8px;
-            border: 1px solid transparent;
-        }
+/* Dynamic State Modifier: Active Component Class styling */
+.vpp-playlist-item-card.vpp-item-active {
+    background-color: rgba(37, 99, 235, 0.05);
+    border-left: 4px solid var(--vpp-accent-blue);
+    padding-left: 12px; /* balance out layout border shift */
+}
 
-        .playlist-item:hover {
-            background: var(--bg-main);
-            border-color: var(--border-color);
-        }
+.vpp-playlist-item-card.vpp-item-active h4 {
+    color: var(--vpp-accent-blue);
+}
 
-        .playlist-item.active {
-            background: #eff6ff;
-            border-color: #bfdbfe;
-        }
+/* Thumbnail Architecture inside Row items */
+.vpp-thumb-frame {
+    position: relative;
+    width: 110px;
+    height: 64px;
+    border-radius: var(--vpp-radius-sm);
+    overflow: hidden;
+    background-color: #0f172a;
+    flex-shrink: 0;
+    box-shadow: var(--vpp-shadow-sm);
+}
 
-        .playlist-item .thumb {
-            width: 120px;
-            height: 68px;
-            background: #e2e8f0;
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
+.vpp-thumb-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--vpp-transition);
+}
 
-        .playlist-item .thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.3s;
-        }
+.vpp-playlist-item-card:hover .vpp-thumb-frame img {
+    transform: scale(1.04);
+}
 
-        .playlist-item:hover .thumb img {
-            transform: scale(1.05);
-        }
+.vpp-duration-badge {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background-color: rgba(15, 23, 42, 0.85);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 2px 5px;
+    border-radius: 4px;
+    backdrop-filter: blur(2px);
+}
 
-        .playlist-item .duration {
-            position: absolute;
-            bottom: 4px;
-            right: 4px;
-            background: rgba(0, 0, 0, 0.75);
-            color: #fff;
-            font-size: 0.75rem;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
+/* Playlist Content Details */
+.vpp-details-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
 
-        .playlist-item .details {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+.vpp-details-block h4 {
+    margin: 0 0 4px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--vpp-text-primary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 
-        .playlist-item .details h4 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--text-main);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+.vpp-details-block p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--vpp-text-secondary);
+}
 
-        .playlist-item .details p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
+/* Dynamic State Modifier: Locked Premium Component styling */
+.vpp-playlist-item-card.vpp-item-locked {
+    opacity: 0.7;
+    background-color: #fafafa;
+}
 
-        /* Locked Video Styling */
-        .playlist-item.locked {
-            opacity: 0.6;
-            cursor: not-allowed;
-            background: var(--bg-main);
-        }
+.vpp-playlist-item-card.vpp-item-locked .vpp-thumb-frame::after {
+    content: "\f023"; /* FontAwesome lock glyph code */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.4);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    backdrop-filter: blur(1px);
+}
 
-        .playlist-item.locked:hover {
-            transform: none;
-            border-color: transparent;
-        }
+.vpp-playlist-item-card.vpp-item-locked:hover {
+    background-color: #f1f5f9;
+    opacity: 0.85;
+}
 
-        .playlist-item.locked .thumb::after {
-            content: '\f023';
-            /* Lock Icon */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.5rem;
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            z-index: 2;
-        }
 
-        .playlist-item.locked .thumb::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 1;
-        }
+/* Custom Control Overlay Overrides */
+.vpp-video-wrapper-frame {
+    position: relative;
+    padding-top: 56.25%; 
+    background-color: #000000;
+    border-radius: var(--vpp-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--vpp-shadow-lg);
+}
 
-        /* --- Responsive Design --- */
-        @media (max-width: 1024px) {
-            .player-container {
-                grid-template-columns: 100%;
-                padding: 15px;
-            }
+/* Custom Controls Container Panel */
+.vpp-custom-controls-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.4), transparent);
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
 
-            .playlist-container {
-                height: auto;
-            }
+/* Hide controls when mouse leaves the player (optional aesthetic look) */
+.vpp-video-wrapper-frame:hover .vpp-custom-controls-bar {
+    opacity: 1;
+}
 
-            .playlist-items {
-                max-height: 400px;
-            }
-        }
+/* Timeline/Seekbar track */
+.vpp-seekbar-wrapper {
+    width: 100%;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.vpp-seekbar {
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    transition: height 0.1s;
+}
+
+.vpp-seekbar:hover {
+    height: 7px;
+}
+
+.vpp-seekbar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--vpp-accent-blue);
+    cursor: pointer;
+}
+
+/* Control Buttons Row */
+.vpp-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+}
+
+.vpp-left-controls, .vpp-right-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.vpp-ctrl-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--vpp-transition);
+    padding: 4px;
+}
+
+.vpp-ctrl-btn:hover {
+    color: var(--vpp-accent-blue);
+    transform: scale(1.1);
+}
+
+/* Volume Cluster Component */
+.vpp-volume-block {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.vpp-volume-slider {
+    width: 70px;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.vpp-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+/* Time Display Text metrics */
+.vpp-time-stamp {
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: monospace;
+}
+
+/* Selector dropdown styles for quality/speed */
+.vpp-select-dropdown {
+    background: rgba(15, 23, 42, 0.85);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    border-radius: var(--vpp-radius-sm);
+    outline: none;
+    cursor: pointer;
+}
+
+
+/* ==========================================================================
+   5. Responsive Adaptive Screen Breaking Points (Mobile-First Optimization)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .vpp-player-container-root {
+        grid-template-columns: 1fr; /* Single stacked block layout */
+        margin: 15px auto;
+        padding: 0 16px;
+        gap: 20px;
+    }
+    
+    .vpp-playlist-container-sidebar {
+        max-height: 550px; /* shrink container footprint on lower devices */
+    }
+    
+    .vpp-video-title-display {
+        font-size: 1.35rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .vpp-video-meta-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .vpp-action-buttons-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .vpp-meta-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+}

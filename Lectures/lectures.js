@@ -203,14 +203,14 @@ async function checkPurchaseAccess(courseId) {
                 buyBtn.innerHTML = '<i class="fa-solid fa-circle-play"></i> Watch Now';
                 buyBtn.style.backgroundColor = "#10b981"; 
                 buyBtn.style.color = "#ffffff";
+                buyBtn.style.outline = "transparent";
                 
                 // Click event replace karo
                 const newBtn = buyBtn.cloneNode(true);
                 buyBtn.parentNode.replaceChild(newBtn, buyBtn);
                 
                 newBtn.addEventListener('click', () => {
-                    alert("Redirecting to Course Player! 🚀");
-                    // window.location.href = `/player.html?course_id=${courseId}`;
+                    window.location.href = `../Preview/Preview.html?course_id=${courseId}`;
                 });
             }
 
