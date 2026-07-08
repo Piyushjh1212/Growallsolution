@@ -182,21 +182,27 @@
 
         <form id="my-supabase-contact-form" class="sb-leadform-element">
 
+          <div class="sb-leadform-field-group" style="position:relative;display:none;" aria-hidden="true">
+            <label for="contact-form-honeypot" class="sb-leadform-field-label">Leave this empty</label>
+            <input type="text" id="contact-form-honeypot" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
           <div class="sb-leadform-field-group">
             <label for="client-name" class="sb-leadform-field-label">Full Name</label>
-            <input type="text" id="client-name" class="sb-leadform-input-ctrl" placeholder="John Doe" required>
+            <input type="text" id="client-name" class="sb-leadform-input-ctrl" placeholder="John Doe" maxlength="80"
+              required>
           </div>
 
           <div class="sb-leadform-field-group">
             <label for="client-email" class="sb-leadform-field-label">Email Address</label>
             <input type="email" id="client-email" class="sb-leadform-input-ctrl" placeholder="john@example.com"
-              required>
+              maxlength="120" required>
           </div>
 
           <div class="sb-leadform-field-group">
             <label for="client-service" class="sb-leadform-field-label">Interested In <span
                 class="sb-optional-tag">(Optional)</span></label>
-            <select id="client-service" class="sb-leadform-select-ctrl">
+            <select id="client-service" class="sb-leadform-select-ctrl" maxlength="80">
               <option value="" selected>Choose a Service (Optional)</option>
               <option value="Web Development">Web Development</option>
               <option value="AI/ML Development">AI/ML Development</option>
@@ -208,7 +214,7 @@
           <div class="sb-leadform-field-group">
             <label for="client-message" class="sb-leadform-field-label">Your Message</label>
             <textarea id="client-message" class="sb-leadform-textarea-ctrl" rows="4" placeholder="Send Your Query..."
-              required></textarea>
+              maxlength="1000" required></textarea>
           </div>
 
           <button type="submit" id="form-submit-btn" class="sb-leadform-submit-action">
