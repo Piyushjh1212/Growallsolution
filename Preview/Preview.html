@@ -119,6 +119,18 @@
 
     <!-- External Script Injection Hook Architecture -->
     <script src="./VideoEngine.js"></script>
+
+    <script>
+        fetch('../Header/Header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+                if (window.initializeHeaderUi) {
+                    window.initializeHeaderUi();
+                }
+            })
+            .catch(error => console.error('Failed to load header:', error));
+    </script>
 </body>
 
 </html>
