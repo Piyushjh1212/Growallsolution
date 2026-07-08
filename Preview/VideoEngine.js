@@ -127,11 +127,14 @@ function initializeNativePlayer(videoId) {
         width: '100%',
         videoId: videoId,
         playerVars: {
-            'controls': 0,
-            'rel': 0,
-            'modestbranding': 1,
+            'origin': window.location.origin,            // 👈 Origin issue fix karne ke liye
+            'host': 'https://www.youtube-nocookie.com', // 👈 Privacy mode: Isse pause ke symbols band ho jayenge
+            'controls': 0,                              // YouTube ke default controls off
+            'rel': 0,                                   // Related videos off
+            'modestbranding': 1,                        // YouTube logo kam karne ke liye
             'showinfo': 0,
-            'autoplay': 1
+            'autoplay': 1,
+            'disablekb': 1                              // 👈 Keyboard spacebar shortcuts ko block karne ke liye
         },
         events: {
             'onReady': onPlayerEngineReady,

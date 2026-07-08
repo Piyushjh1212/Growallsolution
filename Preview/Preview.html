@@ -32,15 +32,11 @@
         <div class="vpp-main-video-section">
             <div class="vpp-video-wrapper-frame" id="vpp-player-scope-window">
 
-                <!-- YouTube Iframe Player (Modestbranding for clean UI) -->
-                <iframe id="videoPlayer" width="100%" height="600"
-                    src="https://www.youtube.com/embed/VIDEO_ID?modestbranding=1&rel=0&showinfo=0&controls=1"
-                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
-                    picture-in-picture" allowfullscreen>
-                </iframe>
+                <!-- 1. Hardcoded iframe ko hata kar sirf is target div ko rakhein (style="display:none" hata dein) -->
+                <div id="videoPlayer"></div>
 
                 <!-- Target element initialized by YouTube API Engine -->
-                <div id="vpp-youtube-native-target" style="display:none;"></div>
+                <div id="vpp-youtube-native-target"></div>
 
                 <!-- Custom Overlay Controls Cluster Panel Box -->
                 <div class="vpp-custom-controls-bar">
