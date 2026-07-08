@@ -12,12 +12,20 @@ DROP POLICY IF EXISTS "Allow authenticated update for contact form" ON public."C
 DROP POLICY IF EXISTS "Allow authenticated delete for contact form" ON public."Contact";
 DROP POLICY IF EXISTS "Allow service_role full access" ON public."Contact";
 
--- 3) Public / Anonymous Users: Form submit karne ki ijaazat (WORKING)
+-- 3) Public / Anonymous Users: Sirf VALID form submit karne ki ijaazat (SIMPLIFIED)
 CREATE POLICY "Allow anon insert for contact form"
 ON public."Contact"
 FOR INSERT
 TO anon
-WITH CHECK (true);
+WITH CHECK (
+  -- Sirf basic checks: fields empty na hon
+  full_name IS NOT NULL
+  AND full_name != ''
+  AND email_address IS NOT NULL
+  AND email_address != ''
+  AND client_message IS NOT NULL
+  AND client_message != ''
+);
 
 -- 4) Authenticated Users (Admins): Data dekhne (Read) ki ijaazat
 CREATE POLICY "Allow authenticated read for contact form"

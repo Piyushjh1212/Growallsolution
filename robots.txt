@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Apne sitemap ka link yahan batayein
+Sitemap: https://growallcoaching.online/sitemap.xml
