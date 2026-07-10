@@ -6,13 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Grow All Coaching</title>
     <link rel="stylesheet" href="./Signup.css">
-
-    <!-- ==================== 1. Supabase CDN JavaScript Library ==================== -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <script src="../Js_files/Pre_Signed_URL.js"></script>
-
-
 </head>
 
 <body>
@@ -67,7 +60,18 @@
         </div>
     </div>
 
+    <!-- ==================== SCRIPTS SECTION (BODY KE END ME) ==================== -->
 
+    <!-- 1. Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- 2. Aapki configuration file (Jisme window.supabaseClient banaya hai) -->
+    <!-- Note: Agar aapne config dusri file me rakhi hai to us ka path yahan sahi se dein -->
+    <!-- <script src="../Js_files/Pre_Signed_URL.js"></script> -->
+
+    <!-- 3. Aapki main signup logic file (Jo pehle missing thi) -->
+    <script src="./signup.js"></script>
+    <!-- (Agar ye file kisi dusre folder me hai, jaise '../Js_files/signup.js', toh path us hisab se sahi kar lena) -->
 
 </body>
 
