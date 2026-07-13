@@ -41,24 +41,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 password: password,
                 options: {
                     data: { full_name: fullName },
-                    emailRedirectTo: `${window.location.origin}/Authentication/Login.html`
+                    emailRedirectTo: `${window.location.origin}/index.html`
                 }
             });
 
             if (signUpError) throw signUpError;
 
-            console.log("✅ User created successfully. Waiting for email confirmation...");
+            console.log("✅ User created successfully.");
+            console.log("🔑 Attempting auto-login after signup...");
 
-            // Show success message with instructions
-            showSuccessMessage(email);
+            // Try to auto-login right after signup
+            const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
 
-            // Reset form
-            signupForm.reset();
+            // If auto-login succeeds, save session and redirect to home
+            if (loginData && loginData.session) {
+                console.log("✅ Auto-login successful!");
 
-            // Redirect to login after 5 seconds
-            setTimeout(() => {
-                window.location.href = "./Login.html";
-            }, 5000);
+                // Save session info
+                localStorage.setItem('gac_logged_in', 'true');
+                localStorage.setItem('gac_current_user', JSON.stringify(loginData.user.user_metadata));
+                localStorage.setItem('gac_user_email', loginData.user.email);
+
+                // Reset form
+                signupForm.reset();
+
+                // Show success message
+                showSuccessMessage(email);
+
+                // Redirect to home directly
+                setTimeout(() => {
+                    window.location.href = "../index.html";
+                }, 2000);
+            } else {
+                // If auto-login failed, show email verification message and redirect to login
+                console.warn("⚠️ Auto-login not available yet. Email verification pending.");
+                showNotificationEmailVerification(email);
+
+                // Reset form
+                signupForm.reset();
+
+                // Redirect to login
+                setTimeout(() => {
+                    window.location.href = "./Login.html";
+                }, 4000);
+            }
 
         } catch (err) {
             console.error("❌ Signup Error:", err);
@@ -186,9 +215,18 @@ document.addEventListener('DOMContentLoaded', () => {
      * Show success message with email verification instructions
      */
     function showSuccessMessage(email) {
-        const message = `Account Created Successfully! A verification link has been sent to ${email}. Please check your email and click the verification link to confirm your account. Redirecting to login...`;
+        const message = `✅ Account Created Successfully! You're now logged in. A verification link has been sent to ${email} for security purposes.`;
         
         showNotification(message, "success", 5000);
+    }
+
+    /**
+     * Show email verification pending message
+     */
+    function showNotificationEmailVerification(email) {
+        const message = `✅ Account Created! A verification link has been sent to ${email}. Please check your email and click the verification link to complete signup. Redirecting to login...`;
+        
+        showNotification(message, "info", 6000);
     }
 
     /**
