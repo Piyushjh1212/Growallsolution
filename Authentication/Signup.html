@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Grow All Coaching</title>
     <link rel="stylesheet" href="./Signup.css">
+
+    <!-- ==================== 1. Supabase CDN JavaScript Library ==================== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../config/supabase_config.js" defer></script>
+    <script src="../Js_files/Signup.js" defer></script>
+
 </head>
 
 <body>
@@ -31,7 +37,7 @@
         <div class="gac-signup-right">
             <div class="gac-form-header">
                 <h3>Create Account</h3>
-                <p>Already have an account? <a href="login.html">Log in</a></p>
+                <p>Already have an account? <a href="./Login.html">Log in</a></p>
             </div>
 
             <form id="gacSignupForm">
@@ -47,7 +53,7 @@
 
                 <div class="gac-input-group">
                     <label for="userPassword">Create Password</label>
-                    <input type="password" id="userPassword" placeholder="Minimum 6 characters" minlength="6" required>
+                    <input type="password" id="userPassword" placeholder="Minimum 8 characters" minlength="8" required>
                 </div>
 
                 <label class="gac-terms">
@@ -60,18 +66,7 @@
         </div>
     </div>
 
-    <!-- ==================== SCRIPTS SECTION (BODY KE END ME) ==================== -->
 
-    <!-- 1. Supabase JS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- 2. Aapki configuration file (Jisme window.supabaseClient banaya hai) -->
-    <!-- Note: Agar aapne config dusri file me rakhi hai to us ka path yahan sahi se dein -->
-    <!-- <script src="../Js_files/Pre_Signed_URL.js"></script> -->
-
-    <!-- 3. Aapki main signup logic file (Jo pehle missing thi) -->
-    <script src="./signup.js"></script>
-    <!-- (Agar ye file kisi dusre folder me hai, jaise '../Js_files/signup.js', toh path us hisab se sahi kar lena) -->
 
 </body>
 

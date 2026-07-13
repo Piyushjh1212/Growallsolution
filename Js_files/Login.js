@@ -1,66 +1,68 @@
-// login.js
-
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('gacLoginForm');
+    const loginForm = document.getElementById('gacLoginForm'); // अपने लॉगिन फॉर्म की ID चेक कर लें
 
     if (!loginForm) return;
 
     loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Page reload hone se rokne ke liye
+        e.preventDefault();
 
-        // Form fields se values lena
+        // इनपुट्स से ईमेल और पासवर्ड लेना (अपनी ID के हिसाब से मैच कर लें)
         const email = document.getElementById('userEmail').value.trim();
         const password = document.getElementById('userPassword').value;
         const submitBtn = loginForm.querySelector('.gac-submit-btn');
 
-        // Global window object se Supabase client uthana
-        const client = window.supabaseClient;
+        if (!email || !password) {
+            alert('Please fill in all fields.');
+            return;
+        }
 
-        if (!client) {
-            alert("Error: Supabase client nahi mila! `supabase-config.js` ko check karein.");
+        // आपके config फ़ाइल से बनाए गए क्लाइंट को ढूँढना
+        const supabase = window.supabaseClient || window._supabase;
+
+        if (!supabase) {
+            console.error("Supabase client not found.");
+            alert("Configuration error: Could not connect to authentication server.");
             return;
         }
 
         try {
-            // Button disable karna taaki multiple clicks na hon
             submitBtn.disabled = true;
-            submitBtn.innerText = "Logging in...";
+            submitBtn.innerText = 'Logging in...';
 
-            // Supabase Authentication method call karna
-            const { data, error } = await client.auth.signInWithPassword({
+            // सीधे Supabase SDK से लॉगिन की रिक्वेस्ट (कोई मैन्युअल fetch नहीं)
+            const { data, error } = await supabase.auth.signInWithPassword({
                 email: email,
-                password: password
+                password: password,
             });
 
-            if (error) {
-                throw error;
-            }
+            // अगर पासवर्ड गलत है या यूजर नहीं मिला, तो Supabase एरर देगा
+            if (error) throw error;
 
-            // Agar login successful ho gaya
-            if (data && data.user) {
-                // [CRITICAL SYNC]: Refresh delay khatam karne ke liye flag set karo
-                localStorage.setItem('gac_logged_in', 'true');
-
-                alert("Login Successful! Welcome back.");
-                loginForm.reset();
+            // लॉगिन सफल होने पर एक्शन
+            if (data && data.session) {
+                alert('Login successful! Welcome back.');
                 
-                // Dashboard ya Home page par user ko bhejna
-                window.location.href = "../index.html"; 
+                // सेशन की जानकारी लोकलस्टोरेज में सेफ करना (ताकि डैशबोर्ड पर यूजर का नाम दिखा सकें)
+                localStorage.setItem('gac_logged_in', 'true');
+                localStorage.setItem('gac_current_user', JSON.stringify(data.user.user_metadata));
+
+                loginForm.reset();
+                window.location.href = '../index.html'; // अपने डैशबोर्ड या होमपेज का पाथ दें
             }
 
         } catch (error) {
-            console.error("Login Failed:", error.message);
+            console.error('Login Error Details:', error);
             
-            // User ko simple aur clear message dena
-            if (error.message.toLowerCase().includes("invalid login credentials")) {
-                alert("Galat Email ya Password! Kripya sahi details daalein.");
-            } else {
-                alert("Login Error: " + error.message);
+            // एरर मैसेज को यूजर के समझने लायक बनाना
+            let friendlyMessage = error.message;
+            if (error.message === 'Invalid login credentials') {
+                friendlyMessage = 'Wrong email or password. Please check your credentials or Sign Up first.';
             }
+            
+            alert('Login Failed: ' + friendlyMessage);
         } finally {
-            // Button ko wapas normal karna
             submitBtn.disabled = false;
-            submitBtn.innerText = "Log In";
+            submitBtn.innerText = 'Log In';
         }
     });
 });
