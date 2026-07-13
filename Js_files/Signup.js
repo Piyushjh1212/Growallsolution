@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     console.log("✅ Signup JS Loaded");
 
     const signupForm = document.getElementById('gacSignupForm');
+    const submitBtn = signupForm?.querySelector('.gac-submit-btn') || signupForm?.querySelector('button[type="submit"]');
 
     if (!signupForm) {
         console.error("❌ Signup form not found in DOM.");
@@ -11,97 +11,139 @@ document.addEventListener('DOMContentLoaded', () => {
 
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log("🔥 FORM SUBMITTED");
+        console.log("🔥 Form Submission Started");
 
+        // Get form values
         const fullName = document.getElementById('userName').value.trim();
         const email = document.getElementById('userEmail').value.trim();
         const password = document.getElementById('userPassword').value;
-        const submitBtn = signupForm.querySelector('.gac-submit-btn') || signupForm.querySelector('button[type="submit"]');
 
-        if (!fullName || !email || !password) {
-            alert("Please fill all fields.");
-            return;
-        }
-
-        if (password.length < 8) {
-            alert("Password must be at least 8 characters.");
-            return;
-        }
+        // Validation
+        if (!validateForm(fullName, email, password)) return;
 
         const supabase = window.supabaseClient || window._supabase;
-
         if (!supabase) {
-            alert("Supabase Client Not Initialized.");
+            showError("Supabase Client Not Initialized.");
             return;
         }
 
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Processing...";
-        }
+        // Disable button and show loading
+        setButtonLoading(submitBtn, true);
 
         try {
-            console.log("1️⃣ Step: Creating User in Supabase (Confirm Email is OFF)...");
+            console.log("📝 Step 1: Creating user account in Supabase...");
 
-            // 1. Supabase में यूजर तुरंत बिना एरर के बन जाएगा
             const { data, error: signUpError } = await supabase.auth.signUp({
                 email: email,
                 password: password,
                 options: {
-                    data: {
-                        full_name: fullName
-                    }
+                    data: { full_name: fullName },
+                    emailRedirectTo: `${window.location.origin}/Authentication/Login.html`
                 }
             });
 
             if (signUpError) throw signUpError;
 
-            console.log("2️⃣ Step: Triggering Direct Resend Email via Frontend...");
+            console.log("✅ User created successfully. Waiting for email confirmation...");
 
-            // 2. आपकी Resend API Key
-            const resendApiKey = "re_hmJ5mJE6_Nztta2SmF28Xr9YCnDczhfKm"; 
+            // Show success message with instructions
+            showSuccessMessage(email);
 
-            // लोकलहोस्ट से सीधा Resend सर्वर को हिट मार रहे हैं (CORS बाईपास के साथ)
-            await fetch('https://api.resend.com/emails', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${resendApiKey}`,
-                    'Content-Type': 'application/json'
-                },
-                mode: 'no-cors', 
-                body: JSON.stringify({
-                    from: 'Grow All Coaching <no-reply@growallcoaching.online>',
-                    to: [email],
-                    subject: 'Verify Your Account - Grow All Coaching',
-                    html: `
-                        <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #eee; max-width: 600px; border-radius: 8px;">
-                            <h2 style="color: #007bff;">Hello ${fullName},</h2>
-                            <p>Grow All Coaching में आपका स्वागत है!</p>
-                            <p>आपका अकाउंट सफलतापूर्वक बन गया है। कृपया नीचे दिए गए लिंक पर क्लिक करके अपना लॉगिन कन्फर्म करें:</p>
-                            <br>
-                            <a href="${window.location.origin}/Authentication/Login.html" style="background: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Confirm Login</a>
-                            <br><br>
-                            <hr style="border: none; border-top: 1px solid #eee;" />
-                            <p style="font-size: 12px; color: #666;">Regards,<br>Team Grow All Coaching</p>
-                        </div>
-                    `
-                })
-            });
-
-            // सक्सेस मैसेज
-            alert("Account Created! 📩\n\nवेरिफिकेशन लिंक सीधे आपके ईमेल पर भेज दिया गया है। अपना Inbox या Spam फोल्डर चेक करें!");
-            
+            // Reset form
             signupForm.reset();
-            window.location.href = "./Login.html";
+
+            // Optional: Auto-redirect to login after 5 seconds
+            // (User can click before redirect)
+            setTimeout(() => {
+                window.location.href = "./Login.html";
+            }, 5000);
 
         } catch (err) {
-            console.error("💥 System Error:", err);
-            alert(err.message || "Signup Failed");
+            console.error("❌ Signup Error:", err);
+            handleSignupError(err);
         } finally {
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Sign Up";
-            }
+            setButtonLoading(submitBtn, false);
         }
     });
+
+    /**
+     * Validate form inputs
+     */
+    function validateForm(fullName, email, password) {
+        if (!fullName || !email || !password) {
+            showError("कृपया सभी फील्ड भरें। (Please fill all fields.)");
+            return false;
+        }
+
+        if (!isValidEmail(email)) {
+            showError("कृपया सही Email दर्ज करें। (Please enter a valid email.)");
+            return false;
+        }
+
+        if (password.length < 8) {
+            showError("पासवर्ड कम से कम 8 वर्ण का होना चाहिए। (Password must be at least 8 characters.)");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Email validation
+     */
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    /**
+     * Show error message
+     */
+    function showError(message) {
+        alert("❌ " + message);
+        console.error(message);
+    }
+
+    /**
+     * Show success message with email verification instructions
+     */
+    function showSuccessMessage(email) {
+        const message = `✅ अकाउंट बनाया गया! (Account Created!)\n\n📧 Email Verification:\n\nआपके Email (${email}) पर एक verification लिंक भेज दिया गया है।\n\n📝 कृपया:\n1. अपना Email खोलें\n2. Verification लिंक पर क्लिक करें\n3. फिर Login करें\n\n(Check your Email for a verification link. Click it and then login.)\n\nNote: Inbox के अलावा Spam फोल्डर में भी देखें।`;
+        
+        alert(message);
+    }
+
+    /**
+     * Handle different signup errors
+     */
+    function handleSignupError(err) {
+        let errorMessage = err.message || "Signup failed. Please try again.";
+
+        if (err.message?.includes("User already registered")) {
+            errorMessage = "यह Email पहले से रजिस्टर है। (This email is already registered.) कृपया Login करें।";
+        } else if (err.message?.includes("Invalid email")) {
+            errorMessage = "अमान्य Email पता। (Invalid email address.)";
+        } else if (err.message?.includes("weak password")) {
+            errorMessage = "पासवर्ड कमजोर है। मजबूत पासवर्ड दें। (Weak password. Please use a stronger password.)";
+        }
+
+        showError(errorMessage);
+    }
+
+    /**
+     * Set button loading state
+     */
+    function setButtonLoading(btn, isLoading) {
+        if (!btn) return;
+
+        if (isLoading) {
+            btn.disabled = true;
+            btn.innerText = "⏳ Processing...";
+            btn.style.opacity = "0.6";
+        } else {
+            btn.disabled = false;
+            btn.innerText = "Sign Up";
+            btn.style.opacity = "1";
+        }
+    }
 });
