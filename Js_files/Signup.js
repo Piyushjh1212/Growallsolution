@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log("✅ Signup JS Loaded");
 
+    // Create notification container
+    createNotificationContainer();
+
     const signupForm = document.getElementById('gacSignupForm');
     const submitBtn = signupForm?.querySelector('.gac-submit-btn') || signupForm?.querySelector('button[type="submit"]');
 
@@ -23,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const supabase = window.supabaseClient || window._supabase;
         if (!supabase) {
-            showError("Supabase Client Not Initialized.");
+            showNotification("Supabase Client Not Initialized.", "error");
             return;
         }
 
@@ -52,8 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Reset form
             signupForm.reset();
 
-            // Optional: Auto-redirect to login after 5 seconds
-            // (User can click before redirect)
+            // Redirect to login after 5 seconds
             setTimeout(() => {
                 window.location.href = "./Login.html";
             }, 5000);
@@ -67,21 +69,105 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /**
+     * Create notification container
+     */
+    function createNotificationContainer() {
+        const container = document.createElement('div');
+        container.id = 'notification-container';
+        container.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 500px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        `;
+        document.body.appendChild(container);
+    }
+
+    /**
+     * Show notification (replaces alert)
+     */
+    function showNotification(message, type = 'info', duration = 4000) {
+        const container = document.getElementById('notification-container');
+        if (!container) return;
+
+        const notification = document.createElement('div');
+        const bgColor = {
+            'success': '#10b981',
+            'error': '#ef4444',
+            'info': '#3b82f6',
+            'warning': '#f59e0b'
+        }[type] || '#3b82f6';
+
+        notification.style.cssText = `
+            background: ${bgColor};
+            color: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: slideIn 0.3s ease-out;
+            word-break: break-word;
+            font-size: 14px;
+            line-height: 1.5;
+        `;
+
+        notification.textContent = message;
+        container.appendChild(notification);
+
+        // Add animation
+        const style = document.createElement('style');
+        if (!document.getElementById('notification-animation')) {
+            style.id = 'notification-animation';
+            style.textContent = `
+                @keyframes slideIn {
+                    from {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+                @keyframes slideOut {
+                    from {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                    to {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Auto remove
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease-out';
+            setTimeout(() => notification.remove(), 300);
+        }, duration);
+    }
+
+    /**
      * Validate form inputs
      */
     function validateForm(fullName, email, password) {
         if (!fullName || !email || !password) {
-            showError("कृपया सभी फील्ड भरें। (Please fill all fields.)");
+            showNotification("Please fill all fields.", "warning");
             return false;
         }
 
         if (!isValidEmail(email)) {
-            showError("कृपया सही Email दर्ज करें। (Please enter a valid email.)");
+            showNotification("Please enter a valid email address.", "warning");
             return false;
         }
 
         if (password.length < 8) {
-            showError("पासवर्ड कम से कम 8 वर्ण का होना चाहिए। (Password must be at least 8 characters.)");
+            showNotification("Password must be at least 8 characters long.", "warning");
             return false;
         }
 
@@ -97,20 +183,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Show error message
-     */
-    function showError(message) {
-        alert("❌ " + message);
-        console.error(message);
-    }
-
-    /**
      * Show success message with email verification instructions
      */
     function showSuccessMessage(email) {
-        const message = `✅ अकाउंट बनाया गया! (Account Created!)\n\n📧 Email Verification:\n\nआपके Email (${email}) पर एक verification लिंक भेज दिया गया है।\n\n📝 कृपया:\n1. अपना Email खोलें\n2. Verification लिंक पर क्लिक करें\n3. फिर Login करें\n\n(Check your Email for a verification link. Click it and then login.)\n\nNote: Inbox के अलावा Spam फोल्डर में भी देखें।`;
+        const message = `Account Created Successfully! A verification link has been sent to ${email}. Please check your email and click the verification link to confirm your account. Redirecting to login...`;
         
-        alert(message);
+        showNotification(message, "success", 5000);
     }
 
     /**
@@ -120,14 +198,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let errorMessage = err.message || "Signup failed. Please try again.";
 
         if (err.message?.includes("User already registered")) {
-            errorMessage = "यह Email पहले से रजिस्टर है। (This email is already registered.) कृपया Login करें।";
+            errorMessage = "This email is already registered. Please login instead.";
         } else if (err.message?.includes("Invalid email")) {
-            errorMessage = "अमान्य Email पता। (Invalid email address.)";
+            errorMessage = "Invalid email address.";
         } else if (err.message?.includes("weak password")) {
-            errorMessage = "पासवर्ड कमजोर है। मजबूत पासवर्ड दें। (Weak password. Please use a stronger password.)";
+            errorMessage = "Password is too weak. Please use a stronger password.";
         }
 
-        showError(errorMessage);
+        showNotification(errorMessage, "error");
     }
 
     /**
