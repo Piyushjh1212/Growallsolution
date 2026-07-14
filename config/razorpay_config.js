@@ -2,7 +2,7 @@
 
 const RAZORPAY_CONFIG = {
     // Apni Razorpay Test ya Live Key yahan daalein
-    key_id: "rzp_live_T9u5Bqd0qBcSbl", 
+    key_id: "rzp_test_T9u1jcqHAPboFK", 
     currency: "INR",
     company_name: "Grow All Coaching",
     theme_color: "#3b82f6",

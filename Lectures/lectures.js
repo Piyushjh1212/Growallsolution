@@ -1,5 +1,96 @@
 // catalog-app.js - Dynamic Syllabus & Course Details Engine
 
+document.addEventListener('DOMContentLoaded', () => {
+    createNotificationContainer();
+    initializeCourseCatalog();
+});
+
+/**
+ * Create notification container for toast messages
+ */
+function createNotificationContainer() {
+    if (document.getElementById('lecture-notification-container')) return;
+
+    const container = document.createElement('div');
+    container.id = 'lecture-notification-container';
+    container.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        max-width: 500px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    `;
+    document.body.appendChild(container);
+
+    // Add animation styles
+    const style = document.createElement('style');
+    if (!document.getElementById('lecture-notification-animation')) {
+        style.id = 'lecture-notification-animation';
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+/**
+ * Show toast notification
+ */
+function showLectureNotification(message, type = 'info', duration = 4000) {
+    const container = document.getElementById('lecture-notification-container');
+    if (!container) return;
+
+    const notification = document.createElement('div');
+    const bgColor = {
+        'success': '#10b981',
+        'error': '#ef4444',
+        'info': '#3b82f6',
+        'warning': '#f59e0b'
+    }[type] || '#3b82f6';
+
+    notification.style.cssText = `
+        background: ${bgColor};
+        color: white;
+        padding: 16px 20px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        animation: slideIn 0.3s ease-out;
+        word-break: break-word;
+        font-size: 14px;
+        line-height: 1.5;
+    `;
+
+    notification.textContent = message;
+    container.appendChild(notification);
+
+    // Auto remove
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => notification.remove(), 300);
+    }, duration);
+}
+
 async function initializeCourseCatalog() {
     // URL se sub_category_id read karna (?sub_category_id=1)
     const urlParams = new URLSearchParams(window.location.search);
@@ -158,25 +249,28 @@ async function initializeCourseCatalog() {
 
     } catch (err) {
         console.error("Database initialization failed:", err);
+        showLectureNotification("Error loading course details. Please try again.", "error");
     }
 }
 
 // 🟢 NEW FUNCTION: Check if user already owns this course
-// 🟢 NEW FUNCTION: Check if user already owns this course
 async function checkPurchaseAccess(courseId) {
     if (!window.supabaseClient || !window.supabaseClient.auth) {
-        console.warn("Supabase Auth load nahi hua hai.");
+        console.warn("Supabase Auth not loaded");
         return;
     }
 
     try {
-        // 1. Current user nikalo
+        // 1. Get current user
         const { data: authData } = await window.supabaseClient.auth.getUser();
         const userId = authData?.user?.id;
 
-        if (!userId) return; 
+        if (!userId) {
+            console.log("No user logged in - showing purchase button");
+            return;
+        }
 
-        // 2. Database mein check karo
+        // 2. Check if user purchased this course
         const { data: purchaseRecord, error } = await window.supabaseClient
             .from('purchases')
             .select('*')
@@ -186,26 +280,27 @@ async function checkPurchaseAccess(courseId) {
             .maybeSingle();
 
         if (error) {
-            console.error("❌ Error fetching purchase data:", error);
+            console.error("Error fetching purchase data:", error);
             return;
         }
 
-        // 3. Agar record mila, toh UI update karo
+        // 3. If user owns course, update UI
         if (purchaseRecord) {
+            console.log("✅ User has purchased this course!");
+            
             const buyBtn = document.getElementById('buy-now-btn');
-            const cartBtn = document.getElementById('add-to-cart-btn'); // Naya selector
-            const priceContainer = document.getElementById('price-container'); // Price section
-            const offerTimer = document.getElementById('offer-timer'); // Timer section
+            const cartBtn = document.getElementById('add-to-cart-btn');
+            const priceContainer = document.getElementById('price-container');
+            const offerTimer = document.getElementById('offer-timer');
 
-
-            // Buy button ko "Watch Now" banao
+            // Change buy button to "Watch Now"
             if (buyBtn) {
                 buyBtn.innerHTML = '<i class="fa-solid fa-circle-play"></i> Watch Now';
-                buyBtn.style.backgroundColor = "#10b981"; 
+                buyBtn.style.backgroundColor = "#10b981";
                 buyBtn.style.color = "#ffffff";
                 buyBtn.style.outline = "transparent";
                 
-                // Click event replace karo
+                // Replace button to remove old event listeners
                 const newBtn = buyBtn.cloneNode(true);
                 buyBtn.parentNode.replaceChild(newBtn, buyBtn);
                 
@@ -214,29 +309,32 @@ async function checkPurchaseAccess(courseId) {
                 });
             }
 
-            // 🟢 Add to cart button ko hide karo
-            if (cartBtn) {
-                cartBtn.style.display = "none";
-            }
-
+            // Hide cart button
+            if (cartBtn) cartBtn.style.display = "none";
             if (priceContainer) priceContainer.style.display = "none";
 
+            // Show confirmation message
             if (offerTimer) {
-        offerTimer.innerHTML = '<div style="color: #10b981; font-weight: 600; padding: 10px 0;">Check your course in My Account</div>';
-    }
-            
-            console.log("✅ User has access. UI updated.");
+                offerTimer.innerHTML = '<div style="color: #10b981; font-weight: 600; padding: 10px 0; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-check-circle"></i> Course Access Unlocked!</div>';
+            }
+
+            showLectureNotification("✅ You have access to this course!", "success", 3000);
         } else {
-            console.log("ℹ️ User has not purchased this course yet.");
+            console.log("User has not purchased this course yet");
+            showLectureNotification("Unlock this course to access all lectures", "info", 3000);
         }
     } catch (error) {
-        console.error("❌ Error checking purchase history:", error);
+        console.error("Error checking purchase access:", error);
     }
 }
 
 
 window.playVideo = function(url) {
-    alert(`🎬 HD Video Stream Link:\n${url}`);
+    if (!url) {
+        showLectureNotification("Video not available yet", "warning");
+        return;
+    }
+    window.open(url, '_blank');
 };
 
 function attachAccordionEvents() {
@@ -258,5 +356,3 @@ function attachAccordionEvents() {
         });
     });
 }
-
-document.addEventListener('DOMContentLoaded', initializeCourseCatalog);
